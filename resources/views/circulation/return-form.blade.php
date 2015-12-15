@@ -11,6 +11,15 @@
         <div class="col-lg-6">
             <form action="/sircular-dev/public/circulation/return" method="POST">
                 <div class="form-group">
+                    <label for="return-number">Return #</label>
+                    <input type="text" class="form-control" name="number" value="{{ old('number') }}"  id="return-number">
+                </div>
+                <div class="form-group">
+                    <label for="return-date">Return date</label>
+                    <input type="text" class="form-control" name="date" value="{{ old('date')  }}" id="return-Date">
+                    <p class="help-block">example (dd-mm-YYYY) <em>24-03-2015</em></p>
+                </div>
+                <div class="form-group">
                     <label for="return-agent">Agent Name</label>
                     @if (isset($detail->distPlanDet->agent->id))
                     <select id="return-agent" class="form-control disabled" name="agent_id" disabled>
@@ -50,12 +59,7 @@
                 </div>
                 <div class="form-group">
                     <label for="delivery-total">Total returned item</label>
-                    <input type="text" class="form-control" name="total" value="{{ $detail->total or ''}}"  id="delivery-total">
-                </div>
-                <div class="form-group">
-                    <label for="return-date">Return date</label>
-                    <input type="text" class="form-control" name="date" value="{{ date('d-m-Y')}}" id="return-Date">
-                    <p class="help-block">example (dd-mm-YYYY) <em>24-03-2015</em></p>
+                    <input type="text" class="form-control" name="total" value="{{ old('total') }}"  id="delivery-total">
                 </div>
                 <!-- Laravel CSRF Token and method SPOOFING -->
                 @if (isset($method))

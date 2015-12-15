@@ -18,6 +18,7 @@ use App\Circulation\ReturnItem;
 use App\Circulation\Delivery;
 use App\Masterdata\Agent;
 use App\Masterdata\Edition;
+use Validator;
 
 class ReturnController extends Controller {
 
@@ -25,8 +26,9 @@ class ReturnController extends Controller {
      * New return rules
      */
     protected $rules = [
-        'agent_id' => 'numeric|required',
-        'edition_id'=> 'numeric|required',
+        'number'=>'numeric|required',
+        'agent_id' =>'numeric|required',
+        'edition_id'=>'numeric|required',
         'total'=>'numeric|required',
         'date'=>'required'
         ];
@@ -72,8 +74,18 @@ class ReturnController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-        $this->validate($request, $this->rules);
-        $input = $request->only('agent_id', 'edition_id', 'total', 'date');
+        //Make validation object
+        $validator = Validator::make($request->all(), $this->rules);
+        //If fails, redirect with another input
+        if ($validator->fails()) {
+            return redirect('circulation/return/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        //$this->validate($request, $this->rules);
+        // Then, store necessary request
+        $input = $request->only('agent_id', 'number', 'edition_id', 'total', 'date');
         $issueDate = strtotime($input['date']);
         $input['date'] = date('Y-m-d', $issueDate);
         //Validate if there are any Distribution plan
@@ -81,7 +93,10 @@ class ReturnController extends Controller {
             $distPlanDetID = $this->validateReturnItem($input);
             $this->validateReturnDate($input);
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors($e->getMessage());
+            return redirect()
+                ->back()
+                ->withErrors($e->getMessage())
+                ->withInput();
         } catch (ModelNotFoundException $e) {
             // If we can't find data
             return redirect()->back()->withErrors('No deliveries were made!');
@@ -94,9 +109,8 @@ class ReturnController extends Controller {
         $toDB['magazine_id'] = $ed->magazine->id;
         $toDB['date'] = $input['date'];
         $toDB['total'] = $input['total'];
-        $num = ReturnItem::max('num')+1;
-        $toDB['num'] = $num;
-        $toDB['number'] = "{$input['edition_id']}/".str_pad($num, 6, 0, STR_PAD_LEFT);
+        $toDB['num'] = (int)$input['number'];
+        $toDB['number'] = "{$input['edition_id']}/".$num;
 
         $newReturn = ReturnItem::firstOrCreate($toDB);
         $msg = "Done! New Return # : {$newReturn->number}";
@@ -107,12 +121,21 @@ class ReturnController extends Controller {
      * return true if item are returnable
      *
      * Return criterias are:
+     *  - return number is not existed before
      *  - sum is less than or equal to total delivered item
      *
      *  @return int distPlanDetID if passed all exceptions
      */
     private function validateReturnItem($input)
     {
+        // Check if return.num already existed
+        $existed = ReturnItem::where('num', '=', (int)$input['number'])->get();
+        if (!$existed->isEmpty()) {
+            $err = "Return number is already existed! Return#: {$existed->implode('number')}";
+            throw new \Exception($err);
+        }
+
+        // Check if agent_id match to distribution_plan
         $planDet = DistPlanDet::with('distributionPlan')->where('agent_id','=',$input['agent_id'])->get();
         if ($planDet->isEmpty()) {
             $err = 'No delivery was made for this agent';
@@ -137,7 +160,6 @@ class ReturnController extends Controller {
         foreach($do as $x) {
             $deliveryAmount += $x->quota;
         }
-
 
         //Previous returns
         $returnAmount = 0;
