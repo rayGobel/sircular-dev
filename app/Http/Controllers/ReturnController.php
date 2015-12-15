@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Requests\StoreReturnItemRequest;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -28,8 +29,6 @@ class ReturnController extends Controller {
     protected $rules = [
         'number'=>'numeric|required',
         'agent_id' =>'numeric|required',
-        'edition_id'=>'numeric|required',
-        'total'=>'numeric|required',
         'date'=>'required'
         ];
 
@@ -61,7 +60,8 @@ class ReturnController extends Controller {
 
         return view('circulation/return-form',
             ['agents'=>$agents,
-             'editions'=>$editions
+            'editions'=>$editions,
+            'return_item_count'=>1
             ]
         );
 
@@ -72,16 +72,8 @@ class ReturnController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
+	public function store(StoreReturnItemRequest $request)
 	{
-        //Make validation object
-        $validator = Validator::make($request->all(), $this->rules);
-        //If fails, redirect with another input
-        if ($validator->fails()) {
-            return redirect('circulation/return/create')
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         //$this->validate($request, $this->rules);
         // Then, store necessary request
@@ -203,6 +195,21 @@ class ReturnController extends Controller {
         if ($retrDate > $distDate) {
             throw new \Exception('Item return has passed 3 months overdue!');
         }
+    }
+
+    /**
+     * Add new input form. Only accept post
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function postAddEditionDetail(Request $request)
+    {
+        $count = $request->only('return_item_count');
+
+        return redirect()
+            ->back()
+            ->withInput();
     }
 
 	/**

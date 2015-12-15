@@ -24,7 +24,7 @@ Route::group(['middleware'=>'auth'], function(){
 
     Route::resource('masterdata/publisher', 'PublisherController');
     Route::resource('masterdata/magazine', 'MagazineController');
-    Route::controller('masterdata/edition', 'EditionController');
+    //Route::controller('masterdata/edition', 'EditionController');
     Route::resource('masterdata/edition', 'EditionController');
     Route::resource('masterdata/agent', 'AgentController');
     Route::resource('masterdata/agent-cat', 'AgentCatController');
@@ -34,6 +34,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('circulation/distribution-plan.details.delivery', 'DeliveryController', ['except'=>['destroy']] );
     // So that delivery controller are accessible via _typical_ link
     Route::resource('circulation/delivery', 'DeliveryController', ['only'=>['index', 'create']]);
+    Route::post('circulation/return/addEditionDetail', 'ReturnController@postAddEditionDetail');
     Route::resource('circulation/return', 'ReturnController');
     Route::resource('invoice/invoice', 'InvoiceController');
 

@@ -8,7 +8,19 @@
         </div>
    @endforeach
    <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
+            <form action="/sircular-dev/public/circulation/return/addEditionDetail" method="POST">
+                <input type="hidden" name="_method" value="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="form-group">
+                <label for="return-item-count">How many edition</label>
+                <input type="text" class="form-control" name="return_item_count" value="{{ old('return_item_count') }}" id="return-item-count">
+                </div>
+                <button type="submit" class="btn btn-default">
+                    Submit
+                </button>
+            </form>
+            <hr></hr>
             <form action="/sircular-dev/public/circulation/return" method="POST">
                 <div class="form-group">
                     <label for="return-number">Return #</label>
@@ -37,30 +49,30 @@
                     </select>
                     @endif
                 </div>
-                <div class="form-group">
-                    <label for="return-edition">Edisi Majalah</label>
-                    @if (isset($detail->distPlanDet->distributionPlan->edition->id))
-                    <select id="return-magazine" class="form-control disabled" name="edition_id" disabled>
-                        <option selected value={{$detail->distPlanDet->distributionPlan->edition->id}}>
-                            {{$detail->distPlanDet->distributionPlan->edition->magazine->name}}
-                            {{$detail->distPlanDet->distributionPlan->edition->edition_code}}
-                        </option>
-                    </select>
-                    @else
-                    <select id="dist-detail-cat" class="form-control" name="edition_id">
-                        @foreach($editions as $ed)
-                        <option value={{$ed->id}}>
-                            {{$ed->magazine->name}}
-                            {{$ed->edition_code}}
-                        </option>
-                        @endforeach
-                    </select>
-                    @endif
+                @for ($i = 0; $i < old('return_item_count'); $i++)
+                <div class="row">
+                    <div class="col-lg-7 col-lg-offset-1">
+                        <div class="form-group">
+                            <label for="return-edition">Edisi Majalah</label>
+                            <select id="dist-detail-cat" class="form-control" name="edition_id[{{$i}}]">
+                                @foreach($editions as $ed)
+                                <option value={{$ed->id}}>
+                                    {{$ed->magazine->name}}
+                                    {{$ed->edition_code}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="delivery-total">Total returned item</label>
+                            <input type="text" class="form-control" name="total[{{$i}}]" value="{{ old('total') }}"  id="delivery-total">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="delivery-total">Total returned item</label>
-                    <input type="text" class="form-control" name="total" value="{{ old('total') }}"  id="delivery-total">
-                </div>
+                @endfor
+                <!-- Requesting multiple form_count -->
                 <!-- Laravel CSRF Token and method SPOOFING -->
                 @if (isset($method))
                 <input type="hidden" name="_method" value="{{ $method }}">
