@@ -23,15 +23,6 @@ use Validator;
 
 class ReturnController extends Controller {
 
-    /**
-     * New return rules
-     */
-    protected $rules = [
-        'number'=>'numeric|required',
-        'agent_id' =>'numeric|required',
-        'date'=>'required'
-        ];
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -70,20 +61,27 @@ class ReturnController extends Controller {
 	/**
 	 * Store a newly created resource in storage.
 	 *
+     * Because I'm using separate request validator, all
+     * actions done here will be limited to database input
+     *
+     * @param StoreReturnItemRequest $request
 	 * @return Response
 	 */
 	public function store(StoreReturnItemRequest $request)
 	{
-
-        //$this->validate($request, $this->rules);
         // Then, store necessary request
         $input = $request->only('agent_id', 'number', 'edition_id', 'total', 'date');
         $issueDate = strtotime($input['date']);
         $input['date'] = date('Y-m-d', $issueDate);
         //Validate if there are any Distribution plan
+        $distPlanDetID = Array();
         try {
-            $distPlanDetID = $this->validateReturnItem($input);
-            $this->validateReturnDate($input);
+            // Validate for each edition returned
+            foreach($input['edition_id'] as $key=>$edition_id) {
+                $distPlanDetID[] = $this->validateReturnItem($input, $edition_id, $input['total'][$key]);
+                $this->validateReturnDate($input, $edition_id);
+
+            }
         } catch (\Exception $e) {
             return redirect()
                 ->back()
@@ -94,17 +92,21 @@ class ReturnController extends Controller {
             return redirect()->back()->withErrors('No deliveries were made!');
         }
         //Compose what to enter to database
-        $ed = Edition::with('magazine')->find($input['edition_id']);
-        $toDB['dist_plan_det_id'] = $distPlanDetID;
-        $toDB['agent_id'] = $input['agent_id'];
-        $toDB['edition_id'] = $input['edition_id'];
-        $toDB['magazine_id'] = $ed->magazine->id;
-        $toDB['date'] = $input['date'];
-        $toDB['total'] = $input['total'];
-        $toDB['num'] = (int)$input['number'];
-        $toDB['number'] = "{$input['edition_id']}/".$num;
+        foreach($input['edition_id'] as $key=>$edition_id) {
 
-        $newReturn = ReturnItem::firstOrCreate($toDB);
+            $ed = Edition::with('magazine')->find($edition_id);
+            $toDB['dist_plan_det_id'] = $distPlanDetID[$key];
+            $toDB['agent_id'] = $input['agent_id'];
+            $toDB['edition_id'] = $edition_id;
+            $toDB['magazine_id'] = $ed->magazine->id;
+            $toDB['date'] = $input['date'];
+            $toDB['total'] = $input['total'][$key];
+            $toDB['num'] = (int)$input['number'];
+            $toDB['number'] = "{$edition_id}/".str_pad($toDB['num'], 6, 0, STR_PAD_LEFT);
+
+            $newReturn = ReturnItem::firstOrCreate($toDB);
+        }
+
         $msg = "Done! New Return # : {$newReturn->number}";
         return redirect("circulation/return")->with('message', $msg);
 	}
@@ -118,7 +120,7 @@ class ReturnController extends Controller {
      *
      *  @return int distPlanDetID if passed all exceptions
      */
-    private function validateReturnItem($input)
+    private function validateReturnItem($input, $edition_id, $total)
     {
         // Check if return.num already existed
         $existed = ReturnItem::where('num', '=', (int)$input['number'])->get();
@@ -135,8 +137,9 @@ class ReturnController extends Controller {
         }
 
         $distPlanDetID = 0;
+        // look for each distributionPlan
         foreach($planDet as $pd) {
-            if ($pd->distributionPlan->edition_id == (int)$input['edition_id']) {
+            if ($pd->distributionPlan->edition_id == (int)$edition_id) {
                 $distPlanDetID = (int)$pd->id;
             }
         }
@@ -161,7 +164,7 @@ class ReturnController extends Controller {
                 $returnAmount += $x->total;
             }
         }
-        $total = $returnAmount + $input['total'];
+        $total = $returnAmount + $total;
 
         // Delivery amount is less than return
         if ($deliveryAmount < ($total)) {
@@ -186,9 +189,9 @@ class ReturnController extends Controller {
      *
      * @Return null
      */
-    private function validateReturnDate($input)
+    private function validateReturnDate($input, $edition_id)
     {
-        $distPlan = DistPlan::where('edition_id', '=', (int)$input['edition_id'])->firstOrFail();
+        $distPlan = DistPlan::where('edition_id', '=', $edition_id)->firstOrFail();
         $distDate = new \DateTime($distPlan->publish_date);
         $distDate->add(new \DateInterval('P3M'));
         $retrDate = new \DateTime($input['date']);

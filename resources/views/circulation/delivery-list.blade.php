@@ -30,7 +30,8 @@
             @foreach($deliveryLists as $dlv)
                 <tr>
                     <td><?php echo $deliveryLists->firstItem() + $i; $i++ ?></td>
-                    <td>{{ $dlv->distPlanDet->distributionPlan->edition->magazine->name }}</td>
+                    <td>{{ $dlv->distPlanDet->distributionPlan->edition->magazine->name }}
+                    {{ $dlv->distPlanDet->distributionPlan->edition->edition_code }}</td>
                     <td>{{ $dlv->distPlanDet->agent->name }}</td>
                     <td>{{ $dlv->order_number }}</td>
                     <td>{{ $dlv->date_issued }}</td>

@@ -50,6 +50,7 @@
                     @endif
                 </div>
                 @for ($i = 0; $i < old('return_item_count'); $i++)
+                    <p>Entry #{{$i+1}}</p>
                 <div class="row">
                     <div class="col-lg-7 col-lg-offset-1">
                         <div class="form-group">
@@ -72,6 +73,7 @@
                     </div>
                 </div>
                 @endfor
+                <hr></hr>
                 <!-- Requesting multiple form_count -->
                 <!-- Laravel CSRF Token and method SPOOFING -->
                 @if (isset($method))
