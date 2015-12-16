@@ -9,7 +9,7 @@
    @endforeach
    <div class="row">
         <div class="col-lg-8">
-            <form action="/sircular-dev/public/circulation/return/addEditionDetail" method="POST">
+            <form action="/sircular-dev/public/circulation/return/add-edition-detail" method="POST">
                 <input type="hidden" name="_method" value="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group">
