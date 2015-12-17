@@ -21,8 +21,6 @@ class DistributionPlanController extends Controller {
     protected $distPlan_rules = [
         'magazine_id'=>'required|numeric',
         'edition_code'=>'required',
-        'percent_fee'=>'required',
-        'value_fee'=>'required',
         'print'=>'required|numeric',
         'gratis'=>'required|numeric',
         'distributed'=>'required|numeric',
@@ -32,8 +30,6 @@ class DistributionPlanController extends Controller {
         ];
 
     protected $distPlanStore_rules = [
-        'percent_fee'=>'required',
-        'value_fee'=>'required',
         'print'=>'required|numeric',
         'gratis'=>'required|numeric',
         'distributed'=>'required|numeric',
@@ -95,8 +91,7 @@ class DistributionPlanController extends Controller {
 
         }
         //Begin storing information
-        $input = $request->only('percent_fee',
-                                'value_fee',
+        $input = $request->only(
                                 'print',
                                 'gratis',
                                 'distributed',
@@ -155,8 +150,7 @@ class DistributionPlanController extends Controller {
 	public function update($id, Request $request)
 	{
 		$this->validate($request, $this->distPlanStore_rules);
-        $ip = $request->only('percent_fee',
-                             'value_fee',
+        $ip = $request->only(
                              'print',
                              'gratis',
                              'distributed',
@@ -165,8 +159,6 @@ class DistributionPlanController extends Controller {
                              'print_number');
 
         $distPlan = DistPlan::find($id);
-        $distPlan->percent_fee = $ip['percent_fee'];
-        $distPlan->value_fee = $ip['value_fee'];
         $distPlan->print = $ip['print'];
         $distPlan->gratis = $ip['gratis'];
         $distPlan->distributed = $ip['distributed'];

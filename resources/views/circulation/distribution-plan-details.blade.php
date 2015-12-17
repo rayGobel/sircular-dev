@@ -59,20 +59,6 @@
    <div class="row">
        <div class="col-lg-8 col-lg-offset-2">
            <hr></hr>
-           <p class="lead">Diskon penerbit</p>
-           <table class="table">
-                   <tr>
-                       <th>Presentase fee</th>
-                       <td>{{ $dist->percent_fee }}</td>
-                       <th>Nilai fee</th>
-                       <td>{{ $dist->value_fee }}</td>
-                   </tr>
-           </table>
-       </div>
-   </div>
-   <div class="row">
-       <div class="col-lg-8 col-lg-offset-2">
-           <hr></hr>
            <p class="lead">Rencana edaran</p>
            <table class="table">
                    <tr>

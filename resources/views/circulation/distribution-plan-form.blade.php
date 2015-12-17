@@ -40,14 +40,6 @@
                 </div>
                 @endif
                 <div class="form-group">
-                    <label for="distPlan-percentFee">% fee</label>
-                    <input type="text" class="form-control" name="percent_fee" value="{{$distPlan->percent_fee or 0}}" id="distPlan-percentFee">
-                </div>
-                <div class="form-group">
-                    <label for="distPlan-valueFee">value fee</label>
-                    <input type="text" class="form-control" name="value_fee" value="{{$distPlan->value_fee or 0}}" id="distPlan-valueFee">
-                </div>
-                <div class="form-group">
                     <label for="distPlan-print">Plan Print</label>
                     <input type="text" class="form-control" name="print" value="{{$distPlan->print or ''}}" id="distPlan-print">
                 </div>
@@ -66,10 +58,11 @@
                 <div class="form-group">
                     <label for="distPlan-publish">Publish Date</label>
                     <input type="text" class="form-control" name="publish_date" value="{{$distPlan->publish_date or ''}}" id="distPlan-publish">
+                    <p class="help-block">e.g. (dd-mm-YYYY) :<em>24-03-2015</em></p>
                 </div>
                 <div class="form-group">
                     <label for="distPlan-printNum">Print number</label>
-                    <input type="text" class="form-control" name="print_number" value="{{$distPlan->print_number or ''}}" id="distPlan-printNum">
+                    <input type="text" class="form-control" name="print_number" value="{{$distPlan->print_number or '1'}}" id="distPlan-printNum">
                 </div>
                 <!-- Laravel CSRF Token and method SPOOFING -->
                 @if (isset($method))
