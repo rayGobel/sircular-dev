@@ -33,6 +33,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('circulation/distribution-plan.details', 'DistributionPlanDetController');
     Route::get('circulation/distribution-plan/{distPlanID}/details/{distPlanDetID}/deliverySpecific', 'DeliveryController@ScopeIndex');
     Route::resource('circulation/distribution-plan.details.delivery', 'DeliveryController', ['except'=>['destroy']] );
+    Route::resource('circulation/distribution-realization', 'DistributionRealizationController');
     // So that delivery controller are accessible via _typical_ link
     Route::resource('circulation/delivery', 'DeliveryController', ['only'=>['index', 'create']]);
     //Route::controller('circulation/return/addEditionDetail', 'ReturnController@postAddEditionDetail');

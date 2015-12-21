@@ -15,7 +15,8 @@ class DistributionPlan extends Model
                            'distributed',
                            'stock',
                            'publish_date',
-                           'print_number'
+                           'print_number',
+                           'is_realized'
                           ];
 
     /**

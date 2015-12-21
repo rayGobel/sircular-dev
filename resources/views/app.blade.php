@@ -41,6 +41,7 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ url('/circulation/distribution-plan') }}">Rencana distribusi</a></li>
+                            <li><a href="{{ url('/circulation/distribution-realization') }}">Realisasi distribusi</a></li>
                             <li><a href="{{ url('/circulation/delivery') }}">Pengiriman majalah</a></li>
                             <li><a href="{{ url('/circulation/return') }}">Retur penjualan</a></li>
                         </ul>
