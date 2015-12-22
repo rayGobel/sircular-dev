@@ -208,8 +208,6 @@ class ReturnController extends Controller {
      */
     public function postAddEditionDetail(Request $request)
     {
-        $count = $request->only('return_item_count');
-
         return redirect()
             ->back()
             ->withInput();

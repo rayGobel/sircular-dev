@@ -69,7 +69,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="delivery-total">Total returned item</label>
-                            <input type="text" class="form-control" name="total[{{$i}}]" value="{{ old('total') }}"  id="delivery-total">
+                            <input type="text" class="form-control" name="total[{{$i}}]" value="{{ old('total.'.$i) }}"  id="delivery-total">
                         </div>
                     </div>
                 </div>
