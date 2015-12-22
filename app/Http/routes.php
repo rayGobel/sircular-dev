@@ -29,18 +29,21 @@ Route::group(['middleware'=>'auth'], function(){
     Route::controller('masterdata/edition', 'EditionController');
     Route::resource('masterdata/agent', 'AgentController');
     Route::resource('masterdata/agent-cat', 'AgentCatController');
-    // Necessary for postCreateFromPrev
+
     Route::resource('circulation/distribution-plan', 'DistributionPlanController');
-    Route::controller('circulation/distribution-plan', 'DistributionPlanController');
     Route::resource('circulation/distribution-plan.details', 'DistributionPlanDetController');
     Route::get('circulation/distribution-plan/{distPlanID}/details/{distPlanDetID}/deliverySpecific', 'DeliveryController@ScopeIndex');
     Route::resource('circulation/distribution-plan.details.delivery', 'DeliveryController', ['except'=>['destroy']] );
+    // Necessary for postCreateFromPrev
+    Route::controller('circulation/distribution-plan', 'DistributionPlanController');
+
     Route::resource('circulation/distribution-realization', 'DistributionRealizationController');
     // So that delivery controller are accessible via _typical_ link
     Route::resource('circulation/delivery', 'DeliveryController', ['only'=>['index', 'create']]);
     //Route::controller('circulation/return/addEditionDetail', 'ReturnController@postAddEditionDetail');
     Route::resource('circulation/return', 'ReturnController');
     Route::controller('circulation/return', 'ReturnController');
+
     Route::resource('invoice/invoice', 'InvoiceController');
 
 });
