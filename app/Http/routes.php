@@ -25,11 +25,13 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('masterdata/publisher', 'PublisherController');
     Route::resource('masterdata/magazine', 'MagazineController');
     // Necessary for filter/search method
-    Route::controller('masterdata/edition', 'EditionController');
     Route::resource('masterdata/edition', 'EditionController');
+    Route::controller('masterdata/edition', 'EditionController');
     Route::resource('masterdata/agent', 'AgentController');
     Route::resource('masterdata/agent-cat', 'AgentCatController');
+    // Necessary for postCreateFromPrev
     Route::resource('circulation/distribution-plan', 'DistributionPlanController');
+    Route::controller('circulation/distribution-plan', 'DistributionPlanController');
     Route::resource('circulation/distribution-plan.details', 'DistributionPlanDetController');
     Route::get('circulation/distribution-plan/{distPlanID}/details/{distPlanDetID}/deliverySpecific', 'DeliveryController@ScopeIndex');
     Route::resource('circulation/distribution-plan.details.delivery', 'DeliveryController', ['except'=>['destroy']] );

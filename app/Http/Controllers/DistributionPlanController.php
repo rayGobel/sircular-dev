@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException
     as ModelNotFoundException;
 use App\Circulation\DistributionPlan as DistPlan;
+use App\Circulation\DistributionPlanDetail as DistPlanDet;
 
 //Use models
 use App\Masterdata\Magazine;
@@ -60,10 +61,14 @@ class DistributionPlanController extends Controller {
 	 */
 	public function create()
 	{
+        //Distribution plan list
+        $distPlans = DistPlan::with('edition.magazine')->get();
         //Magazine list
         $magList = Magazine::all();
         return view('circulation/distribution-plan-form',
-                    ['magList'=>$magList]);
+            ['magList'=>$magList,
+             'dist_plans'=>$distPlans
+        ]);
 	}
 
 	/**
@@ -82,7 +87,9 @@ class DistributionPlanController extends Controller {
 
         try {
 
-            $edition = Edition::where('edition_code', '=', $code['edition_code'])->firstOrFail();
+            $edition = Edition::where('edition_code', '=', $code['edition_code'])
+                ->where('magazine_id', '=', $request->input('magazine_id'))
+                ->firstOrFail();
 
         } catch (ModelNotFoundException $e) {
 
@@ -109,6 +116,71 @@ class DistributionPlanController extends Controller {
         return redirect('circulation/distribution-plan')->with('message', $msg);
 
 	}
+
+    /**
+     * Process store request based on previous distribution plan
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function postCreateFromPrev(Request $request)
+    {
+        $this->validate($request, [
+            'dist_plan_id'=>'required|numeric',
+            'magazine_id'=>'required|numeric',
+            'edition_code'=>'required'
+        ]);
+
+        // Go through validation steps
+        try {
+            // Check if edition code exist or distribution plan for previous edition exist
+            $edition = Edition::where('edition_code', '=', $request->input('edition_code'))
+                ->where('magazine_id', '=', $request->input('magazine_id'))
+                ->firstOrFail();
+            $distPlan = DistPlan::with('details')->findOrFail($request->input('dist_plan_id'));
+            // Check if distribution plan is already exist or not
+            $existing = DistPlan::where('edition_id', '=', $edition->id)->first();
+            if ($existing) {
+                throw new \Exception("Distribution plan has already been made!");
+            }
+
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Distribution plan is not found! / Edition Code mismatch!";
+            return redirect('circulation/distribution-plan')->with('errMsg', $execMsg);
+        } catch (\Exception $e) {
+            return redirect('circulation/distribution-plan')->with('errMsg', $e->getMessage());
+        }
+
+
+        // Create new distribution. Unfilled value will be
+        // set to default. Date will be set to today (Please
+        // check php timezone for possible date mismatch)
+        $distPlanNew = new DistPlan;
+        $distPlanNew->edition_id = $edition->id;
+        $distPlanNew->print = $distPlan->print;
+        $distPlanNew->gratis = $distPlan->gratis;
+        $distPlanNew->distributed = $distPlan->distributed;
+        $distPlanNew->stock = $distPlan->stock;
+        $distPlanNew->publish_date = date('Y-m-d');
+        $distPlanNew->print_number = 1;
+        $distPlanNew->save();
+
+        // generate exact data for dist_realize_details from dist_plan_details
+        foreach($distPlan->details as $distPlanDet) {
+            $distPlanDetNew = new DistPlanDet;
+            $distPlanDetNew->distribution_plan_id = $distPlanNew->id;
+            $distPlanDetNew->agent_id = $distPlanDet->agent_id;
+            $distPlanDetNew->consigned = $distPlanDet->consigned;
+            $distPlanDetNew->gratis = $distPlanDet->gratis;
+            $distPlanDetNew->quota = $distPlanDet->quota;
+            $distPlanDetNew->save();
+
+        }
+
+        $msg = "Done! New distribution plan with id={$distPlanNew->id}";
+        return redirect('circulation/distribution-plan')->with('message', $msg);
+
+    }
 
 	/**
 	 * Display the specified resource.

@@ -7,8 +7,49 @@
             <p>{{ $error }}</p>
         </div>
    @endforeach
+   @if (!isset($distPlan))
+   <div class="row">
+       <div class="col-lg-6">
+           <h3>Create from existing plan</h3>
+           <form action="{{ url('circulation/distribution-plan') }}/create-from-prev" method="POST">
+                <div class="form-group">
+                    <label for="distPlanPrev-mag">Magazine</label>
+                    <select id="distPlanPrev-mag" class="form-control" name="magazine_id">
+                        @foreach($magList as $mag)
+                        <option value={{$mag->id}} >
+                            {{$mag->name}}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="distPlanPrev-edition">Edition</label>
+                    <input type="text" class="form-control" name="edition_code" value="" id="distPlanPrev-edition">
+                    <p class="help-block"><em>e.g. 185/DESEMBER/2011</em></p>
+                </div>
+                <div class="form-group">
+                    <label for="distPlanPrev">Previous magazine</label>
+                    <select id="distPlanPrev" class="form-control" name="dist_plan_id">
+                        @foreach($dist_plans as $dist_plan)
+                        <option value={{$dist_plan->id}} >
+                            {{$dist_plan->edition->magazine->name}}
+                            {{$dist_plan->edition->edition_code}}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+           </form>
+       </div>
+   </div>
+   <hr></hr>
+   @endif
    <div class="row">
         <div class="col-lg-6">
+           <h3>Create new plan</h3>
             <form action="/sircular-dev/public/circulation/distribution-plan{{ isset($distID) ? '/'.$distID : '' }}" method="POST">
                 @if (isset($distPlan))
                 <div class="form-group">

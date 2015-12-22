@@ -11,8 +11,6 @@ use App\Circulation\DistributionPlan as DistPlan;
 use App\Circulation\DistributionRealization as DistRealize;
 use App\Circulation\DistributionRealizationDetail as DistRealizeDetail;
 
-
-
 class DistributionRealizationController extends Controller {
 
 	/**
