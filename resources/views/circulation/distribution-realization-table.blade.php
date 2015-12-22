@@ -34,9 +34,7 @@
                     <td>{{ $dist_real->publish_date }}</td>
                     <td>{{ $dist_real->print }}</td>
                     <td>
-                        <a href="distribution-plan/{{$dist_real->id}}/edit">Edit</a>
-                        
-                        <a href="distribution-plan/{{ $dist_real->id}}">Details</a>
+                        <a href="distribution-realization/{{ $dist_real->id}}">Details</a>
                     </td>
                 </tr>
             @endforeach

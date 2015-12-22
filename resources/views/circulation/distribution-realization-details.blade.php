@@ -106,8 +106,7 @@
                             {{ $detail->gratis }}
                         </td>
                         <td>
-                            <a href="{{ $dist_id }}/details/{{ $detail->id }}/edit">Edit</a>
-                            <a href="{{ $dist_id }}/details/{{ $detail->id }}">Delete</a>
+                            <a href="{{ $dist_id }}/details/{{ $detail->id }}/deliverySpecific">Delivery</a>
                         </td>
                     </tr>
 <?php 
