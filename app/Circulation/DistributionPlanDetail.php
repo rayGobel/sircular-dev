@@ -32,12 +32,4 @@ class DistributionPlanDetail extends Model
         return $this->belongsTo('App\Masterdata\Agent');
     }
 
-    /**
-     * 1-to-many relation to delivery
-     */
-    public function delivery()
-    {
-        return $this->hasMany('App\Circulation\Delivery','dist_plan_det_id');
-    }
-
 }

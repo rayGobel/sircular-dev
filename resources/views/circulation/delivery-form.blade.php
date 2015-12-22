@@ -9,7 +9,7 @@
    @endforeach
    <div class="row">
         <div class="col-lg-6">
-            <form action="/sircular-dev/public/circulation/distribution-plan/{{ $distPlanID }}/details/{{ $detailsID }}/delivery" method="POST">
+            <form action="/sircular-dev/public/circulation/distribution-realization/{{ $distRealizationID }}/details/{{ $distRealizationDetID }}/delivery" method="POST">
                 <div class="form-group">
                     <label for="dist-detail-cat">Agency</label>
                     @if (isset($detail->agent->id))
@@ -55,7 +55,7 @@
                         <i class="fa fa-pencil fa-fw"></i>
                         Create
                     </button>
-                    <a class="btn btn-default" href="/sircular-dev/public/circulation/distribution-plan/{{ $distPlanID }}">
+                    <a class="btn btn-default" href="/sircular-dev/public/circulation/distribution-plan/{{ $distRealizationID }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Cancel
                     </a>

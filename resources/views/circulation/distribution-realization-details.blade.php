@@ -19,17 +19,10 @@
    <div class="row">
        <div class="col-lg-4 col-lg-offset-2">
            <p class="lead">
-           <strong>Rencana Distribusi Majalah </strong>
+           <strong>Realisasi Distribusi Majalah </strong>
            </p>
-       </div>
-       <div class="col-lg-4">
-           <form class="pull-right" action="/sircular-dev/public/circulation/distribution-plan/{{$dist_id}}" method="POST">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <button type="submit" class="btn btn-danger pull-right">
-                <i class="fa fa-close fa-fw"></i>
-            </button>
-           </form>
+           <p><em><a href="{{ url('circulation/distribution-plan') }}/{{ $dist->distribution_plan_id }}">
+                   Lihat rencana</a></em></p>
        </div>
    </div>
    <div class="row">
@@ -143,11 +136,6 @@
 
             
            </table>
-       </div>
-   </div>
-   <div class="row">
-       <div class="col-lg-8 col-lg-offset-2">
-           <a href='{{ $dist_id }}/details/create' class="btn btn-default">Add new</a>
        </div>
    </div>
 </div>

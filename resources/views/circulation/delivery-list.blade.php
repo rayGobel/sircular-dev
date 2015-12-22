@@ -30,16 +30,16 @@
             @foreach($deliveryLists as $dlv)
                 <tr>
                     <td><?php echo $deliveryLists->firstItem() + $i; $i++ ?></td>
-                    <td>{{ $dlv->distPlanDet->distributionPlan->edition->magazine->name }}
-                    {{ $dlv->distPlanDet->distributionPlan->edition->edition_code }}</td>
-                    <td>{{ $dlv->distPlanDet->agent->name }}</td>
+                    <td>{{ $dlv->distRealizationDet->distributionRealization->edition->magazine->name }}
+                    {{ $dlv->distRealizationDet->distributionRealization->edition->edition_code }}</td>
+                    <td>{{ $dlv->distRealizationDet->agent->name }}</td>
                     <td>{{ $dlv->order_number }}</td>
                     <td>{{ $dlv->date_issued }}</td>
                     <td>{{ $dlv->quota }}</td>
                     <td>{{ $dlv->consigned }}</td>
                     <td>{{ $dlv->gratis }}</td>
                     <td>
-                        <a href="/sircular-dev/public/circulation/distribution-plan/{{ $dlv->distPlanDet->distributionPlan->id }}/details/{{ $dlv->distPlanDet->id }}/delivery/{{ $dlv->id}}">Print/Delete</a>
+                        <a href="/sircular-dev/public/circulation/distribution-realization/{{ $dlv->distRealizationDet->distributionRealization->id }}/details/{{ $dlv->distRealizationDet->id }}/delivery/{{ $dlv->id}}">Print/Delete</a>
                     </td>
                 </tr>
             @endforeach

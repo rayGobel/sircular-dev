@@ -32,12 +32,12 @@ Route::group(['middleware'=>'auth'], function(){
 
     Route::resource('circulation/distribution-plan', 'DistributionPlanController');
     Route::resource('circulation/distribution-plan.details', 'DistributionPlanDetController');
-    Route::get('circulation/distribution-plan/{distPlanID}/details/{distPlanDetID}/deliverySpecific', 'DeliveryController@ScopeIndex');
-    Route::resource('circulation/distribution-plan.details.delivery', 'DeliveryController', ['except'=>['destroy']] );
     // Necessary for postCreateFromPrev
     Route::controller('circulation/distribution-plan', 'DistributionPlanController');
 
+    Route::get('circulation/distribution-realization/{distRealizationID}/details/{distRealizationDetID}/deliverySpecific', 'DeliveryController@ScopeIndex');
     Route::resource('circulation/distribution-realization', 'DistributionRealizationController');
+    Route::resource('circulation/distribution-realization.details.delivery', 'DeliveryController', ['except'=>['destroy']] );
     // So that delivery controller are accessible via _typical_ link
     Route::resource('circulation/delivery', 'DeliveryController', ['only'=>['index', 'create']]);
     //Route::controller('circulation/return/addEditionDetail', 'ReturnController@postAddEditionDetail');

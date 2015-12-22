@@ -22,6 +22,7 @@
             </form>
             <hr></hr>
             <form action="/sircular-dev/public/circulation/return" method="POST">
+                <input type="hidden" class="form-control" name="return_item_count" value="{{ old('return_item_count') }}" >
                 <div class="form-group">
                     <label for="return-number">Return #</label>
                     <input type="text" class="form-control" name="number" value="{{ old('number') }}"  id="return-number">

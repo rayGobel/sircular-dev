@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException
     as ModelNotFoundException;
-use App\Circulation\DistributionPlan 
-    as DistPlan;
-use App\Circulation\DistributionPlanDetail 
-    as DistPlanDet;
+use App\Circulation\DistributionRealization
+    as DistRealization;
+use App\Circulation\DistributionRealizationDetail
+    as DistRealizationDet;
 
 use App\Circulation\Delivery;
 
@@ -32,8 +32,8 @@ class DeliveryController extends Controller {
 	 */
 	public function index()
 	{
-        $deliveryLists = Delivery::with('distPlanDet.distributionPlan.edition.magazine',
-            'distPlanDet.agent')->paginate(10);
+        $deliveryLists = Delivery::with('distRealizationDet.distributionRealization.edition.magazine',
+            'distRealizationDet.agent')->paginate(10);
 
         $deliveryLists->setPath('');
         return view('circulation/delivery-list',
@@ -42,16 +42,16 @@ class DeliveryController extends Controller {
 	}
 
     /**
-     * return specific deliveries based on distPlanID and its detail
+     * return specific deliveries based on distRealizationID and its detail
      *
      * @param int distPlanID refer to distribution plan pkey
      * @param int distPLanDetID refer to distribution plan details pkey
      * @return response
      */
-    public function ScopeIndex($distPlanID, $distPlanDetID)
+    public function ScopeIndex($distRealizationID, $distRealizationDetID)
     {
-        $deliveryLists = Delivery::with('distPlanDet.distributionPlan.edition.magazine',
-            'distPlanDet.agent')->where('dist_plan_det_id', '=', $distPlanDetID)->paginate(10);
+        $deliveryLists = Delivery::with('distRealizationDet.distributionRealization.edition.magazine',
+            'distRealizationDet.agent')->where('dist_realization_det_id', '=', $distRealizationDetID)->paginate(10);
 
         $deliveryLists->setPath('');
         return view('circulation/delivery-list',
@@ -63,7 +63,7 @@ class DeliveryController extends Controller {
 	/**
 	 * Show the form for creating a new delivery order
      *
-     * Necessary arguments are already created in `distPlanDet` model.
+     * Necessary arguments are already created in `distRealizationDet` model.
      * This form will fill out remaining DO contents such as:
      *   - issue date
      *   - DO#
@@ -74,15 +74,15 @@ class DeliveryController extends Controller {
      * @param int distPlanID refer to distribution plan details pkey
 	 * @return Response
 	 */
-	public function create($distPlanID, $detailsID)
+	public function create($distRealizationID, $distRealizationDetID)
 	{
 		//Get necessary details to fill out form
-        $detail = DistPlanDet::with('agent', 'distributionPlan.edition.magazine')
-            ->find($detailsID);
+        $detail = DistRealizationDet::with('agent', 'distributionRealization.edition.magazine')
+            ->find($distRealizationDetID);
 
         return view('circulation/delivery-form',
-            ['distPlanID' => $distPlanID,
-             'detailsID'=>$detailsID,
+            ['distRealizationID' => $distRealizationID,
+             'distRealizationDetID'=>$distRealizationDetID,
              'detail'=>$detail
             ]
         );
@@ -94,7 +94,7 @@ class DeliveryController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store($distPlanID, $detailsID, Request $request)
+	public function store($distRealizationID, $distRealizationDetID, Request $request)
 	{
         //Validate
         $this->validate($request, $this->rules);
@@ -106,11 +106,11 @@ class DeliveryController extends Controller {
         $num = Delivery::max('number')+1;
         $input['number'] = $num;
         $input['order_number'] = "{$year}/".str_pad($num, 5, 0, STR_PAD_LEFT);
-        $input['dist_plan_det_id'] = $detailsID;
+        $input['dist_realization_det_id'] = $distRealizationDetID;
 
         $newDO = Delivery::firstOrCreate($input);
         $msg = "Done! New DO# : {$newDO->order_number}";
-        return redirect("circulation/distribution-plan/$distPlanID")->with('message', $msg);
+        return redirect("circulation/distribution-realization/{$distRealizationID}")->with('message', $msg);
             
 	}
 
@@ -120,9 +120,11 @@ class DeliveryController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($distPlanID, $detailsID, $id)
+	public function show($distRealizationID, $distRealizationDetID, $id)
 	{
-        $delivery = DistPlanDet::with('distributionPlan.edition.magazine', 'agent', 'delivery')->find($detailsID);
+        $delivery = DistRealizationDet::with('distributionRealization.edition.magazine', 'agent', 'delivery')
+            ->find($distRealizationDetID);
+
         return view('circulation/delivery-details',
             ['dlv'=>$delivery, 'deliveryID'=>$id]);
 	}

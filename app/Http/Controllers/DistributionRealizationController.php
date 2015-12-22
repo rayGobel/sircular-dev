@@ -102,7 +102,9 @@ class DistributionRealizationController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        $dist = DistRealize::with('details.agent', 'edition.magazine')->find($id);
+        return view('circulation/distribution-realization-details',
+            ['dist'=>$dist, 'dist_id'=>$id]);
 	}
 
 	/**
@@ -113,7 +115,8 @@ class DistributionRealizationController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+        $msg = "Distribution realization is uneditable!";
+		return redirect('circulation/distribution-realization')->with('errMsg', $msg);
 	}
 
 	/**

@@ -38,12 +38,12 @@
                <tr>
                    <td>1</td>
                    <td>
-                        Majalah {{$dlv->DistributionPlan->edition->magazine->name}}
-                        edisi {{$dlv->DistributionPlan->edition->edition_code}}
+                        Majalah {{$dlv->DistributionRealization->edition->magazine->name}}
+                        edisi {{$dlv->DistributionRealization->edition->edition_code}}
                    </td>
                    <td>{{$dv->quota}}</td>
-                   <td class="monetary-fmt">{{$dlv->DistributionPlan->edition->price}}</td>
-                   <td class="monetary-fmt">{{$dlv->DistributionPlan->edition->price * $dv->quota}}</td>
+                   <td class="monetary-fmt">{{$dlv->DistributionRealization->edition->price}}</td>
+                   <td class="monetary-fmt">{{$dlv->DistributionRealization->edition->price * $dv->quota}}</td>
                </tr>
            </table>
        </div>

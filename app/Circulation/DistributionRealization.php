@@ -20,4 +20,11 @@ class DistributionRealization extends Model
         return $this->belongsTo('App\Masterdata\Edition');
     }
 
+    /**
+     * 1-to-many relation to DistributionRealizationDetail
+     */
+    public function details()
+    {
+        return $this->hasMany('App\Circulation\DistributionRealizationDetail');
+    }
 }

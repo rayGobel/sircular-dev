@@ -7,7 +7,7 @@ class Delivery extends Model
     /**
      * Fillable columns
      */
-    protected $fillable = ['dist_plan_det_id',
+    protected $fillable = ['dist_realization_det_id',
                            'date_issued',
                            'order_number',
                            'quota',
@@ -21,9 +21,9 @@ class Delivery extends Model
     /**
      * 1-to-1 relation to distribution plan details
      */
-    public function distPlanDet()
+    public function distRealizationDet()
     {
-        return $this->belongsTo('App\Circulation\DistributionPlanDetail',
-                                'dist_plan_det_id');
+        return $this->belongsTo('App\Circulation\DistributionRealizationDetail',
+                'dist_realization_det_id');
     }
 }
