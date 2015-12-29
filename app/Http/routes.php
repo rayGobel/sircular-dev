@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'HomeController@index');
 
 Route::get('home', 'HomeController@index');
 
@@ -36,6 +36,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::controller('circulation/distribution-plan', 'DistributionPlanController');
 
     Route::get('circulation/distribution-realization/{distRealizationID}/details/{distRealizationDetID}/deliverySpecific', 'DeliveryController@ScopeIndex');
+    Route::get('circulation/distribution-realization/{distRealizationID}/compare/{distPlanID}', 'DistributionRealizationController@compare');
     Route::resource('circulation/distribution-realization', 'DistributionRealizationController');
     Route::resource('circulation/distribution-realization.details.delivery', 'DeliveryController', ['except'=>['destroy']] );
     // So that delivery controller are accessible via _typical_ link

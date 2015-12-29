@@ -23,6 +23,8 @@
            </p>
            <p><em><a href="{{ url('circulation/distribution-plan') }}/{{ $dist->distribution_plan_id }}">
                    Lihat rencana</a></em></p>
+           <p><em><a href="{{ url('circulation/distribution-realization') }}/{{ $dist->id }}/compare/{{ $dist->distribution_plan_id }}">
+                   Perbandingan</a></em></p>
        </div>
    </div>
    <div class="row">

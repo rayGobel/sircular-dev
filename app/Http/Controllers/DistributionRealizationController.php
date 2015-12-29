@@ -104,6 +104,30 @@ class DistributionRealizationController extends Controller {
             ['dist'=>$dist, 'dist_id'=>$id]);
 	}
 
+    /**
+     * Show comparisons between plan and realization
+     *
+     * @param int $distRealizationID
+     * @param int $distPlanID
+     * @return Response
+     */
+    public function compare($distRealizationID, $distPlanID)
+    {
+        $dist_real = DistRealize::with('details.agent')->find($distRealizationID);
+        // Check if distPlanID match with $distRealizationID
+        if ($dist_real->distribution_plan_id != $distPlanID) {
+            return redirect()->back()->with('errMsg', 'Mismatched IDs!');
+        }
+
+        $dist_plan = DistPlan::with('details.agent')->find($distPlanID);
+        // Try to combine both of them based on agent_id
+        $agent_plan = $dist_plan->details->keyBy('agent_id');
+        $agent_real = $dist_real->details->keyBy('agent_id');
+        return view('circulation/distribution-realization-compare',
+            ['agent_plan'=>$agent_plan, 'agent_real'=>$agent_real]);
+
+    }
+
 	/**
 	 * Show the form for editing the specified resource.
 	 *
