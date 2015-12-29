@@ -109,6 +109,12 @@ class DeliveryController extends Controller {
         $input['dist_realization_det_id'] = $distRealizationDetID;
 
         $newDO = Delivery::firstOrCreate($input);
+        // Modify delivery.realization.details
+        $distRealizationDet = DistRealizationDet::find($distRealizationDetID);
+        $distRealizationDet->quota = $distRealizationDet->quota + $input['quota'];
+        $distRealizationDet->consigned = $distRealizationDet->consigned + $input['consigned'];
+        $distRealizationDet->gratis = $distRealizationDet->gratis + $input['gratis'];
+        $distRealizationDet->save();
         $msg = "Done! New DO# : {$newDO->order_number}";
         return redirect("circulation/distribution-realization/{$distRealizationID}")->with('message', $msg);
             

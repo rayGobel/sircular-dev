@@ -84,9 +84,6 @@ class DistributionRealizationController extends Controller {
             $distRealDet = new DistRealizeDetail;
             $distRealDet->distribution_realization_id = $distReal->id;
             $distRealDet->agent_id = $distPlanDet->agent_id;
-            $distRealDet->consigned = $distPlanDet->consigned;
-            $distRealDet->gratis = $distPlanDet->gratis;
-            $distRealDet->quota = $distPlanDet->quota;
             $distRealDet->save();
 
         }
