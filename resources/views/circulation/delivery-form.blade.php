@@ -55,7 +55,7 @@
                         <i class="fa fa-pencil fa-fw"></i>
                         Create
                     </button>
-                    <a class="btn btn-default" href="/sircular-dev/public/circulation/distribution-plan/{{ $distRealizationID }}">
+                    <a class="btn btn-default" href="/sircular-dev/public/circulation/distribution-realization/{{ $distRealizationID }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Cancel
                     </a>

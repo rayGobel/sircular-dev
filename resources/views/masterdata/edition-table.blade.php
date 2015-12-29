@@ -46,9 +46,9 @@
                     <td>{{ $edition->main_article }}</td>
                     <td class="monetary-fmt">{{ $edition->price }}</td>
                     <td>
-                        <a href="edition/{{$edition->id}}/edit">Edit</a>
+                        <a href="{{ url('masterdata/edition') }}/{{$edition->id}}/edit">Edit</a>
                         
-                        <a href="edition/{{ $edition->id}}">Delete</a>
+                        <a href="{{ url('masterdata/edition') }}/{{ $edition->id}}">Delete</a>
                     </td>
                 </tr>
             @endforeach

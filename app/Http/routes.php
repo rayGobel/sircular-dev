@@ -40,7 +40,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('circulation/distribution-realization', 'DistributionRealizationController');
     Route::resource('circulation/distribution-realization.details.delivery', 'DeliveryController', ['except'=>['destroy']] );
     // So that delivery controller are accessible via _typical_ link
-    Route::resource('circulation/delivery', 'DeliveryController', ['only'=>['index', 'create']]);
+    Route::resource('circulation/delivery', 'DeliveryController', ['only'=>['index']]);
     //Route::controller('circulation/return/addEditionDetail', 'ReturnController@postAddEditionDetail');
     Route::resource('circulation/return', 'ReturnController');
     Route::controller('circulation/return', 'ReturnController');
