@@ -33,6 +33,10 @@
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                @if (Auth::guest())
+                <ul class="nav navbar-nav">
+                </ul>
+                @else
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
                     <li>
@@ -67,6 +71,7 @@
                         </ul>
                     </li>
 				</ul>
+                @endif
 
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
