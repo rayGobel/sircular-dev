@@ -62,7 +62,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <a class="btn btn-default" href="edition/create" role="button">
+            <a class="btn btn-default" href="{{ url('masterdata/edition/create') }}" role="button">
                 Create new
             </a>
         </div>
