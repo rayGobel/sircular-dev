@@ -34,6 +34,8 @@
                     <td>{{ $agent->phone }}</td>
                     <td>{{ $agent->contact }}</td>
                     <td>
+                        <a href="agent/relationship/{{$agent->id}}">Majalah</a>
+
                         <a href="agent/{{$agent->id}}/edit">Edit</a>
                         
                         <a href="agent/{{ $agent->id}}">Delete</a>

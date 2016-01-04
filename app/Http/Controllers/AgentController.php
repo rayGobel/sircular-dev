@@ -162,10 +162,16 @@ class AgentController extends Controller {
      */
     public function postCreateRelationship(Request $request)
     {
-        $this->validate($request, ['magazine_id'=>'required|numeric']);
-        $magazine_id = $request->only('magazine_id');
-        print_r($input);
-        exit();
+        $this->validate($request, ['magazine_id'=>'required|numeric', 'agent_id'=>'required|numeric']);
+        $agent_id = $request->agent_id;
+        $magazine_id = $request->magazine_id;
+        // Get current agent
+        $agent = Agent::find($agent_id)
+            ->magazine()
+            ->save(Magazine::find($magazine_id));
+        // Add new entry
+        return redirect("masterdata/agent/relationship/{$agent_id}")
+            ->with('message', 'Added new relationship!');
     }
 
 }

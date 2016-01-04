@@ -28,7 +28,9 @@ class EditionController extends Controller {
 	 */
 	public function index()
 	{
-        $editions = Edition::with('magazine')->paginate(15);
+        $editions = Edition::with('magazine')
+            ->orderBy('magazine_id')
+            ->paginate(15);
         $editions->setPath('');
         $magazines = Magazine::all();
         return view('masterdata/edition-table',

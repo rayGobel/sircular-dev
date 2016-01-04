@@ -57,6 +57,7 @@
                 <input type="hidden" name="_method" value="{{ $method }}">
                 @endif
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="agent_id" value="{{ $agent->id }}">
                 <div class="form-group">
                     <label for="new-magazine-rel">Majalah</label>
                     <select id="new-magazine-rel" class="form-control" name="magazine_id">
