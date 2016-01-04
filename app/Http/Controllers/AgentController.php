@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException
 
 use App\Masterdata\Agent;
 use App\Masterdata\AgentCategory;
+use App\Masterdata\Magazine;
 
 class AgentController extends Controller {
 
@@ -131,5 +132,40 @@ class AgentController extends Controller {
         }
         return redirect('masterdata/agent')->with('message',$execMsg);
 	}
+
+    /**
+     * Show Agent-Magazine relationship
+     *
+     * @param int agent_id
+     * @return Response
+     */
+    public function getRelationship($agent_id)
+    {
+        $agent = Agent::with('magazine', 'agent_category')->find($agent_id);
+        $selected = [];
+        foreach($agent->magazine as $mag) {
+            $selected[] = $mag->id;
+        }
+        // Construct intersect_array
+        $unselected_mags = Magazine::whereNotIn('id', $selected)->get();
+
+        return view('masterdata/agent-relationship',
+            ['agent'=>$agent, 'unselected_mags'=>$unselected_mags]);
+
+    }
+
+    /**
+     * Process request to create new relationship
+     *
+     * @param Request request
+     * @return Response
+     */
+    public function postCreateRelationship(Request $request)
+    {
+        $this->validate($request, ['magazine_id'=>'required|numeric']);
+        $magazine_id = $request->only('magazine_id');
+        print_r($input);
+        exit();
+    }
 
 }

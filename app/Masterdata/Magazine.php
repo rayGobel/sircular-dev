@@ -25,4 +25,11 @@ class Magazine extends Model {
         return $this->hasMany('App\Masterdata\Edition');
     }
 
+    /**
+     * Define many-to-many relationship to `Agent`
+     */
+    public function agent()
+    {
+        return $this->belongsToMany('App\Masterdata\Agent');
+    }
 }

@@ -28,6 +28,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('masterdata/edition', 'EditionController');
     Route::controller('masterdata/edition', 'EditionController');
     Route::resource('masterdata/agent', 'AgentController');
+    Route::controller('masterdata/agent', 'AgentController');
     Route::resource('masterdata/agent-cat', 'AgentCatController');
 
     Route::resource('circulation/distribution-plan', 'DistributionPlanController');

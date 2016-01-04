@@ -18,5 +18,14 @@ class Agent extends Model
         return $this->belongsTo('App\Masterdata\AgentCategory');
     }
 
+    /**
+     * Define many-to-many relationship to `Magazine`
+     */
+    public function magazine()
+    {
+        return $this->belongsToMany('App\Masterdata\Magazine');
+    }
+
+
 
 }
