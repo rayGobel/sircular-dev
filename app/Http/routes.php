@@ -48,6 +48,8 @@ Route::group(['middleware'=>'auth'], function(){
 
     Route::resource('invoice/invoice', 'InvoiceController');
 
+    Route::controller('report', 'ReportController');
+
 });
 
 // Sircular routing logic

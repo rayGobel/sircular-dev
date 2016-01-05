@@ -29,7 +29,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Sircular-Dev v0.2</a>
+				<a class="navbar-brand" href="#">Sircular-Dev v0.4</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -68,6 +68,14 @@
                             <li><a href="{{ url('/masterdata/edition') }}">Edisi</a></li>
                             <li><a href="{{ url('/masterdata/agent-cat') }}">Kategori Agen</a></li>
                             <li><a href="{{ url('/masterdata/agent') }}">Agen/Outlet</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            Laporan <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/report') }}">Dashboard</a></li>
                         </ul>
                     </li>
 				</ul>
