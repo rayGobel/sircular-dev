@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1">
                     <h4>Masterdata</h4>
-                    <dl class="dl-horizontal">
+                    <dl class="dl">
                         <dt>
                             <p><a href="{{ url('report/create-dist-realization') }}">data penerbit</a></p>
                         </dt>
@@ -33,32 +33,55 @@
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1">
                     <h4>Sirkulasi</h4>
-                    <dl class="dl-horizontal">
+                    <dl class="dl">
+                        <dt>
+                            <p><a href="">Laporan Rencana Distribusi</a></p>
+                        </dt>
+                        <dd>Laporan ini menampilkan rencana distribusi majalah ke agen-agen</dd>
                         <dt>
                             <p><a href="{{ url('report/create-dist-realization') }}">Realisasi distribusi</a></p>
                         </dt>
-                        <dd>Realisasi Distribusi</dd>
+                        <dd>Laporan ini menampilkan realisasi distribusi majalah ke agen-agen</dd>
+                        <dt>
+                            <p><a href="">Laporan Retur</a></p>
+                        </dt>
+                        <dd>Laporan ini menampilkan retur majalah dari agen-agen</dd>
+                        <dt>
+                            <p><a href="">Laporan Retur Harian</a></p>
+                        </dt>
+                        <dd></dd>
+                        <dt>
+                            <p><a href="">Laporan Rekap DO</a></p>
+                        </dt>
+                        <dd></dd>
+                        <dt>
+                            <p><a href="">Laporan Jumlah Majalah</a></p>
+                        </dt>
+                        <dd></dd>
+                        <dt>
+                            <p><a href="">Laporan Mutasi Majalah</a></p>
+                        </dt>
+                        <dd></dd>
+                        <dt>
+                            <p><a href="">Laporan Penjualan Majalah</a></p>
+                        </dt>
+                        <dd></dd>
+                        <dt>
+                            <p><a href="">Laporan Pengiriman per ekspedisi</a></p>
+                        </dt>
+                        <dd></dd>
+                        <dt>
+                            <p><a href="">Laporan penjualan per kota</a></p>
+                        </dt>
+                        <dd></dd>
+                        <dt>
+                            <p><a href="">Laporan retur per majalah dan agen</a></p>
+                        </dt>
+                        <dd></dd>
                     </dl>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <p>Invoice</p>
-                    <dl>
-                        <dt>Laporan invoice</dt>
-                        <dd>Somewhere here</dd>
-                        <dt>Sistem informasi</dt>
-                        <dd>Somewhere gone here</dd>
-                    </dl>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <p>Return</p>
-                </div>
-            </div>
 
         </div><!-- container.row.col-lg-12 -->
     </div><!-- container.row -->
