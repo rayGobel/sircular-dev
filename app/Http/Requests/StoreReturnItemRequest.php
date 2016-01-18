@@ -23,6 +23,7 @@ class StoreReturnItemRequest extends Request {
 	{
         $rules = [
             'number'=>'numeric|required',
+            'edition_id'=>'required',
             'agent_id' =>'numeric|required',
             'date'=>'required|date'
             ];
