@@ -74,6 +74,11 @@ class ReportController extends Controller {
 
         $DistPlan = DistPlan::where('edition_id', '=', $request->edition_id)->first();
         $DistReal = DistRealization::where('edition_id', '=', $request->edition_id)->first();
+        // if empty, don't render any result
+        if(!$DistPlan or !$DistReal) {
+            $msg = "Tidak ditemukan perencanaan atau realisasi";
+            return redirect('report/create-dist-realization')->with('errMsg', $msg);
+        }
 
         $DistPlanDet = DistPlanDet::with('agent.agent_category')
             ->where('distribution_plan_id', '=', $DistPlan->id)

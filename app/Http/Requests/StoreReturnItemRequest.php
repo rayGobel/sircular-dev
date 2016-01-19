@@ -30,11 +30,15 @@ class StoreReturnItemRequest extends Request {
 
         // Rules for edition_id and total arrays
         $edition_ids = $this->request->get('edition_id');
+        // Incase of empty edition_ids, premature return
+        if(!$edition_ids) {
+            return $rules;
+        }
+
         foreach($edition_ids as $key=>$value) {
             $rules['edition_id.'.$key] = 'required|numeric';
             $rules['total.'.$key] = 'required|numeric';
         }
-
 
         return $rules;
 	}

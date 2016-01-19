@@ -2,6 +2,16 @@
 
 @section('content')
 <div class="container">
+    @if (Session::has('errMsg'))
+    <div class="alert alert-danger" role="alert">
+            <p>{{ Session::get('errMsg') }}</p>
+    </div>
+    @endif
+    @foreach($errors->all() as $error)
+    <div class="alert alert-danger" role="alert">
+        <p>{{ $error }}</p>
+    </div>
+    @endforeach
     <div class="row">
         <div class="col-sm-6 col-sm-offset-1">
             <p class="lead">Generate report</p>
