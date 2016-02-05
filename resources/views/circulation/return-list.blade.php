@@ -29,10 +29,10 @@
                 <tr>
                     <td><?php echo $returnList->firstItem() + $i; $i++ ?></td>
                     <td>
-                        {{ $rts->distPlanDet->distributionPlan->edition->magazine->name }} -
-                        {{ $rts->distPlanDet->distributionPlan->edition->edition_code }}
+                        {{ $rts->distRealizationDet->distributionRealization->edition->magazine->name }} -
+                        {{ $rts->distRealizationDet->distributionRealization->edition->edition_code }}
                     </td>
-                    <td>{{ $rts->distPlanDet->agent->name }}</td>
+                    <td>{{ $rts->distRealizationDet->agent->name }}</td>
                     <td>{{ $rts->number }}</td>
                     <td>{{ $rts->date }}</td>
                     <td>{{ $rts->total }}</td>

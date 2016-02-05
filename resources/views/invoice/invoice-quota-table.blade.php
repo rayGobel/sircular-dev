@@ -34,7 +34,7 @@
                     <td>{{ $invoice->issue_date }}</td>
                     <td>{{ $invoice->due_date }}</td>
                     <td>
-                        <a href="invoiceConsign/{{$invoice->id}}">Detail</a>
+                        <a href="invoiceQuota/{{$invoice->id}}">Detail</a>
                     </td>
                 </tr>
             @endforeach
@@ -49,7 +49,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <a class="btn btn-default" href="invoiceConsign/create" role="button">
+            <a class="btn btn-default" href="invoiceQuota/create" role="button">
                 Create new
             </a>
         </div>

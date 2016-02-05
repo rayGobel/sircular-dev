@@ -2,13 +2,13 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class InvoiceDetailDelivery extends Model 
+class InvoiceConsignDetailDelivery extends Model 
 {
     /**
      * Editable columns
      */
     protected $fillable = ['delivery_id',
-                           'invoice_id',
+                           'invoice_consign_id',
                            'vat',
                            'discount',
                            'total',
@@ -20,7 +20,7 @@ class InvoiceDetailDelivery extends Model
      */
     public function invoice()
     {
-        return $this->belongsTo('App\Invoice\Invoice');
+        return $this->belongsTo('App\Invoice\InvoiceConsign');
     }
 
     /**

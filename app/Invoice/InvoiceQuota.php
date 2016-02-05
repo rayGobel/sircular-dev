@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model 
+class InvoiceQuota extends Model 
 {
 
     /**
@@ -30,15 +30,7 @@ class Invoice extends Model
      */
     public function detailDelivery()
     {
-        return $this->hasMany('App\Invoice\InvoiceDetailDelivery');
-    }
-
-    /**
-     * 1-to-many relation to invoice detail return
-     */
-    public function detailReturn()
-    {
-        return $this->hasMany('App\Invoice\InvoiceDetailReturn');
+        return $this->hasMany('App\Invoice\InvoiceQuotaDetailDelivery');
     }
 
     /**
@@ -48,5 +40,4 @@ class Invoice extends Model
     {
         return $this->belongsTo('App\Masterdata\Edition');
     }
-
 }

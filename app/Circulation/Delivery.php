@@ -13,8 +13,7 @@ class Delivery extends Model
                            'quota',
                            'consigned',
                            'gratis',
-                           'number',
-                           'in_invoice'
+                           'number'
                           ];
 
 

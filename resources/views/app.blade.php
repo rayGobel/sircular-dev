@@ -55,7 +55,8 @@
                             Tagihan <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/invoice/invoice') }}">Invoice konsinyasi</a></li>
+                            <li><a href="{{ url('/invoice/invoiceConsign') }}">Invoice jatah</a></li>
+                            <li><a href="{{ url('/invoice/invoiceQuota') }}">Invoice konsinyasi</a></li>
                         </ul>
                     </li>
                     <li>

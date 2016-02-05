@@ -46,7 +46,8 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('circulation/return', 'ReturnController');
     Route::controller('circulation/return', 'ReturnController');
 
-    Route::resource('invoice/invoice', 'InvoiceController');
+    Route::resource('invoice/invoiceConsign', 'InvoiceConsignController');
+    Route::resource('invoice/invoiceQuota', 'InvoiceQuotaController');
 
     Route::controller('report', 'ReportController');
 

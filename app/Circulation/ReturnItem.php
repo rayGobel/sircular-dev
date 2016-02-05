@@ -12,7 +12,7 @@ class ReturnItem extends Model
     /**
      * Editable columns
      */
-    protected $fillable = ['dist_plan_det_id',
+    protected $fillable = ['dist_realization_det_id',
                            'agent_id',
                            'edition_id',
                            'magazine_id',
@@ -23,10 +23,10 @@ class ReturnItem extends Model
                            'in_invoice'
                           ];
 
-    public function distPlanDet()
+    public function distRealizationDet()
     {
-        return $this->belongsTo('App\Circulation\DistributionPlanDetail',
-                                'dist_plan_det_id');
+        return $this->belongsTo('App\Circulation\DistributionRealizationDetail',
+                                'dist_realization_det_id');
 
     }
 

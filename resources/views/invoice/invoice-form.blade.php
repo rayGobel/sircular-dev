@@ -9,7 +9,7 @@
    @endforeach
    <div class="row">
         <div class="col-lg-6">
-            <form action="/sircular-dev/public/invoice/invoice{{ isset($invoice_id) ? '/'.$invoice_id : '' }}" method="POST">
+            <form action="/sircular-dev/public/invoice/invoice{{ $invType or 'Consign' }}{{ isset($invoice_id) ? '/'.$invoice_id : '' }}" method="POST">
                 <p class='lead'>This will guide you to build invoice</p>
                 <div class="form-group">
                     <label for="agent-id">Agent name</label>

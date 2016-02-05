@@ -73,7 +73,9 @@ class ReportController extends Controller {
          */
 
         $DistPlan = DistPlan::where('edition_id', '=', $request->edition_id)->first();
-        $DistReal = DistRealization::where('edition_id', '=', $request->edition_id)->first();
+        $DistReal = DistRealization::with('edition.magazine')
+            ->where('edition_id', '=', $request->edition_id)
+            ->first();
         // if empty, don't render any result
         if(!$DistPlan or !$DistReal) {
             $msg = "Tidak ditemukan perencanaan atau realisasi";
@@ -94,11 +96,15 @@ class ReportController extends Controller {
 
         // Get agent details
         $keys = $agent_DistPlanDet->keys();
-        $agents = Agent::whereIn('id', $keys->all())->get();
+        $agents = Agent::with('agent_category')
+            ->whereIn('id', $keys->all())
+            ->orderBy('agent_category_id', 'asc')
+            ->get();
 
         // Now, return agents aggregat
         return view('report/preview-dist-realization',
             [
+                'distReal'=>$DistReal,
                 'distPlanDet'=>$agent_DistPlanDet,
                 'distRealDet'=>$agent_DistRealDet,
                 'agents'=>$agents

@@ -2,14 +2,14 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class InvoiceDetailReturn extends Model 
+class InvoiceConsignDetailReturn extends Model 
 {
 
     /**
      * Editable columns
      */
     protected $fillable = ['return_item_id',
-                           'invoice_id',
+                           'invoice_consign_id',
                            'vat',
                            'discount',
                            'total',
@@ -21,7 +21,7 @@ class InvoiceDetailReturn extends Model
      */
     public function invoice()
     {
-        return $this->belongsTo('App\Invoice\Invoice');
+        return $this->belongsTo('App\Invoice\InvoiceConsign');
     }
 
     /**

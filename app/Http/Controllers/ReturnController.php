@@ -14,6 +14,10 @@ use App\Circulation\DistributionPlanDetail
     as DistPlanDet;
 use App\Circulation\DistributionPlan
     as DistPlan;
+use App\Circulation\DistributionRealization
+    as DistReal;
+use App\Circulation\DistributionRealizationDetail
+    as DistRealDet;
 
 use App\Circulation\ReturnItem;
 use App\Circulation\Delivery;
@@ -30,8 +34,8 @@ class ReturnController extends Controller {
 	 */
 	public function index()
 	{
-        $returnList = ReturnItem::with('distPlanDet.agent',
-                                   'distPlanDet.distributionPlan.edition.magazine')
+        $returnList = ReturnItem::with('distRealizationDet.agent',
+                                   'distRealizationDet.distributionRealization.edition.magazine')
                                    ->paginate(10);
 
         $returnList->setPath('');
@@ -74,11 +78,11 @@ class ReturnController extends Controller {
         $issueDate = strtotime($input['date']);
         $input['date'] = date('Y-m-d', $issueDate);
         //Validate if there are any Distribution plan
-        $distPlanDetID = Array();
+        $distRealDetID = Array();
         try {
             // Validate for each edition returned
             foreach($input['edition_id'] as $key=>$edition_id) {
-                $distPlanDetID[] = $this->validateReturnItem($input, $edition_id, $input['total'][$key]);
+                $distRealDetID[] = $this->validateReturnItem($input, $edition_id, $input['total'][$key]);
                 $this->validateReturnDate($input, $edition_id);
 
             }
@@ -95,7 +99,7 @@ class ReturnController extends Controller {
         foreach($input['edition_id'] as $key=>$edition_id) {
 
             $ed = Edition::with('magazine')->find($edition_id);
-            $toDB['dist_plan_det_id'] = $distPlanDetID[$key];
+            $toDB['dist_realization_det_id'] = $distRealDetID[$key];
             $toDB['agent_id'] = $input['agent_id'];
             $toDB['edition_id'] = $edition_id;
             $toDB['magazine_id'] = $ed->magazine->id;
@@ -118,7 +122,11 @@ class ReturnController extends Controller {
      *  - return number is not existed before
      *  - sum is less than or equal to total delivered item
      *
-     *  @return int distPlanDetID if passed all exceptions
+     *  @param Array input from form validation
+     *  @param int edition_id
+     *  @param int total returned amount on form
+     *
+     *  @return int distRealDetID if passed all exceptions
      */
     private function validateReturnItem($input, $edition_id, $total)
     {
@@ -130,35 +138,29 @@ class ReturnController extends Controller {
         }
 
         // Check if agent_id match to distribution_plan
-        $planDet = DistPlanDet::with('distributionPlan')->where('agent_id','=',$input['agent_id'])->get();
-        if ($planDet->isEmpty()) {
+        $realizationDetail = DistRealDet::with('distributionRealization')->where('agent_id','=',$input['agent_id'])->get();
+        if ($realizationDetail->isEmpty()) {
             $err = 'No delivery was made for this agent';
             throw new \Exception($err);
         }
 
-        $distPlanDetID = 0;
+        $distRealDetID = 0;
         // look for each distributionPlan
-        foreach($planDet as $pd) {
-            if ($pd->distributionPlan->edition_id == (int)$edition_id) {
-                $distPlanDetID = (int)$pd->id;
+        foreach($realizationDetail as $rd) {
+            if ($rd->distributionRealization->edition_id == (int)$edition_id) {
+                $distRealDetID = (int)$rd->id;
             }
         }
 
-        if ($distPlanDetID == 0) {
-            $err = 'No editions were planned for this agent';
+        if ($distRealDetID == 0) {
+            $err = 'No editions were delivered for this agent';
             throw new \Exception($err);
         }
 
-        //Validate return amount
-        $deliveryAmount = 0;
-        $do = Delivery::with('distPlanDet')->where('dist_plan_det_id', '=', $distPlanDetID)->get();
-        foreach($do as $x) {
-            $deliveryAmount += $x->quota;
-        }
 
         //Previous returns
         $returnAmount = 0;
-        $prevRets = ReturnItem::where('dist_plan_det_id', '=', $distPlanDetID)->get();
+        $prevRets = ReturnItem::where('dist_realization_det_id', '=', $distRealDetID)->get();
         if ($prevRets) {
             foreach($prevRets as $x) {
                 $returnAmount += $x->total;
@@ -167,6 +169,14 @@ class ReturnController extends Controller {
         $total = $returnAmount + $total;
 
         // Delivery amount is less than return
+        $deliveryAmount = 0;
+        $deliveries = Delivery::where('dist_realization_det_id', '=', $distRealDetID)->get();
+        if ($deliveries) {
+            foreach($deliveries as $x) {
+                // Quota cannot be returned, so use consigned amount
+                $deliveryAmount += $x->consigned;
+            }
+        }
         if ($deliveryAmount < ($total)) {
             //Must fail
             $err = "Mismatched return amount!".
@@ -176,7 +186,7 @@ class ReturnController extends Controller {
 
         }
 
-        return $distPlanDetID;
+        return $distRealDetID;
 
     }
 
@@ -191,10 +201,11 @@ class ReturnController extends Controller {
      */
     private function validateReturnDate($input, $edition_id)
     {
-        $distPlan = DistPlan::where('edition_id', '=', $edition_id)->firstOrFail();
-        $distDate = new \DateTime($distPlan->publish_date);
+        $distReal = DistReal::where('edition_id', '=', $edition_id)->firstOrFail();
+        $distDate = new \DateTime($distReal->publish_date);
         $distDate->add(new \DateInterval('P3M'));
         $retrDate = new \DateTime($input['date']);
+        // Then, compare dates
         if ($retrDate > $distDate) {
             throw new \Exception('Item return has passed 3 months overdue!');
         }
