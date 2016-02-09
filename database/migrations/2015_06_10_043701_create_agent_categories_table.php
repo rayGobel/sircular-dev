@@ -15,6 +15,8 @@ class CreateAgentCategoriesTable extends Migration {
 		Schema::create('agent_categories', function(Blueprint $table)
 		{
 			$table->increments('id');
+            $table->string('name', 255)->nullable();
+            $table->string('description', 255)->nullable();
 			$table->timestamps();
 		});
 	}

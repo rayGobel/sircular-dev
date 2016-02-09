@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInvoiceQuotaDetailDeliveriesTable extends Migration {
+class CreateInvoiceConsignDetailDeliveriesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class CreateInvoiceQuotaDetailDeliveriesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('invoice_quota_detail_deliveries', function(Blueprint $table)
+		Schema::create('invoice_consign_detail_deliveries', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('invoice_quota_id')->unsigned();
+			$table->integer('invoice_consign_id')->unsigned();
 			$table->integer('delivery_id')->unsigned();
 			$table->double('vat')->default(0);
 			$table->double('discount')->default(0);
@@ -24,9 +24,9 @@ class CreateInvoiceQuotaDetailDeliveriesTable extends Migration {
 			$table->timestamps();
 			
 			// Foreign keys
-			$table->foreign('invoice_quota_id')
+			$table->foreign('invoice_consign_id')
 			    ->references('id')
-			    ->on('invoice_quotas');
+			    ->on('invoice_consigns');
 			$table->foreign('delivery_id')
 			    ->references('id')
 			    ->on('deliveries');
@@ -43,7 +43,7 @@ class CreateInvoiceQuotaDetailDeliveriesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('invoice_quota_detail_deliveries');
+		Schema::drop('invoice_consign_detail_deliveries');
 	}
 
 }

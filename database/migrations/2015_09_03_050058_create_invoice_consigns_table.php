@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInvoiceQuotasTable extends Migration {
+class CreateInvoiceConsignsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,26 +12,26 @@ class CreateInvoiceQuotasTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('invoice_quotas', function(Blueprint $table)
+		Schema::create('invoice_consigns', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('number', 10);
-			$table->mediumInteger('num')->unsigned()->default(0);
+			$table->integer('num')->unsigned()->default(0);
 			$table->integer('agent_id')->unsigned();
 			$table->date('issue_date');
 			$table->date('due_date');
 			$table->integer('edition_id')->unsigned();
-			$table->double('adjustment');
+			$table->double('adjustment')->default(0);
 			$table->timestamps();
-			
-			// Foreign keys
-			$table->foreign('agent_id')
-			    ->references('id')
-			    ->on('agents');
-			$table->foreign('edition_id')
-			    ->references('id')
-			    ->on('editions');
 		});
+		
+		// Foreign key
+		$table->foreign('agent_id')
+		    ->references('id')
+		    ->on('agents');
+		$table->foreign('edition_id')
+		    ->references('id')
+		    ->on('editions');
 	}
 
 	/**
@@ -41,7 +41,7 @@ class CreateInvoiceQuotasTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('invoice_quotas');
+		Schema::drop('invoice_consigns');
 	}
 
 }
