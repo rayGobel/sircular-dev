@@ -18,15 +18,15 @@ class MagazineController extends Controller {
      */
     protected $magazine_rules = [
             'name'=>'required|max:255',
-            'publisher_id'=>'numeric',
+            'publisher_id'=>'required|numeric',
             'period'=>'required|alpha_num',
             'price'=>'required|numeric',
-            'percent_fee','numeric',
-            'percent_value','numeric'
+            'percent_fee'=>'numeric',
+            'percent_value'=>'numeric'
         ];
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of magazines
 	 *
 	 * @return Response
 	 */
@@ -76,7 +76,13 @@ class MagazineController extends Controller {
 	 */
 	public function show($id)
 	{
-        $magazine = Magazine::findOrFail($id);
+        try {
+            $magazine = Magazine::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $errMsg = "Cannot show magazine. Error on ID={$id}";
+            return redirect("masterdata/magazine")->with('errMsg', $errMsg);
+        }
+
         return view('masterdata/magazine-view',
             ['magazine'=>$magazine]
             );
@@ -90,8 +96,15 @@ class MagazineController extends Controller {
 	 */
 	public function edit($id)
 	{
+        try {
+            $magazine = Magazine::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $errMsg = "Cannot edit magazine. Error on ID={$id}";
+            return redirect("masterdata/magazine")->with('errMsg', $errMsg);
+        }
+
         return view('masterdata/magazine-form',
-            ['magazine'=>Magazine::findOrFail($id),
+            ['magazine'=>$magazine,
              'publishers'=>Publisher::all(),
              'method'=>'PUT',
              'magazine_id'=>$id
@@ -108,7 +121,12 @@ class MagazineController extends Controller {
 	public function update($id, Request $request)
 	{
         $input = $request->only('name', 'publisher_id', 'period', 'price', 'percent_fee', 'percent_value');
-        $magz = Magazine::find($id);
+        try {
+            $magazine = Magazine::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $errMsg = "Cannot update magazine. Error on ID={$id}";
+            return redirect("masterdata/magazine")->with('errMsg', $errMsg);
+        }
         $magz->name = $input['name'];
         $magz->publisher_id = $input['publisher_id'];
         $magz->period = $input['period'];
@@ -140,5 +158,6 @@ class MagazineController extends Controller {
         }
         return redirect('masterdata/magazine')->with('message',$execMsg);
 	}
+
 
 }

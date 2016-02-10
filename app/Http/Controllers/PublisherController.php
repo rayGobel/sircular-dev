@@ -11,13 +11,21 @@ use App\Masterdata\Publisher;
 
 class PublisherController extends Controller {
 
+    protected $rules = ['name'=>'required|max:255',
+                        'city'=>'max:255',
+                        'province'=>'max:255',
+                        'phone'=>'max:50',
+                        'contact'=>'max:100'];
+
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of publishers
+     *
+     * @return Response
 	 *
 	 */
 	public function index()
 	{
-        $publs = Publisher::paginate(5);
+        $publs = Publisher::paginate(10);
         $publs->setPath('');
         return view('masterdata/publisher-table',
                         ['publishers'=>$publs]
@@ -25,7 +33,7 @@ class PublisherController extends Controller {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new publisher.
 	 *
 	 * @return Response
 	 */
@@ -35,13 +43,14 @@ class PublisherController extends Controller {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created publisher in storage.
 	 *
 	 * @return Response
 	 */
 	public function store(Request $request)
 	{
         //Storing new request
+        $this->validate($request, $this->rules);
         $input = $request->only('name','city','province','phone','contact');
         $publ = Publisher::firstOrCreate($input);
         //Done
@@ -56,7 +65,13 @@ class PublisherController extends Controller {
 	 */
 	public function show($id)
 	{
-        $publ = Publisher::findOrFail($id);
+        try {
+            $publ = Publisher::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot show record. Unknown publisher with ID={$id}";
+            return redirect('masterdata/publisher')->with('errMsg',$execMsg);
+        }
+
         return view('masterdata/publisher-view',
             ['publisher'=>$publ]
             );
@@ -72,8 +87,15 @@ class PublisherController extends Controller {
 	{
         //Set necessary parameter to edit data. 
         //  set `method` to `PUT`
+        try {
+            $publ = Publisher::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot edit record. Unknown publisher with ID={$id}";
+            return redirect('masterdata/publisher')->with('errMsg',$execMsg);
+        }
+
         return view('masterdata/publisher-form',
-            ['publisher'=>Publisher::findOrFail($id),
+            ['publisher'=>$publ,
              'method'=>'PUT',
              'pub_id'=>$id
             ]
@@ -81,16 +103,23 @@ class PublisherController extends Controller {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified publisher in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function update($id, Request $request)
 	{
-		//
+        $this->validate($request, $this->rules);
         $input = $request->only('name','city','province','phone','contact');
-        $pub = Publisher::find($id);
+        try {
+            $pub = Publisher::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot update record. Unknown publisher with ID={$id}.";
+            return redirect('masterdata/publisher')->with('errMsg',$execMsg);
+        }
+
+        // Begin changes
         $pub->name = $input['name'];
         $pub->city = $input['city'];
         $pub->province = $input['province'];
@@ -102,7 +131,7 @@ class PublisherController extends Controller {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified publisher from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response

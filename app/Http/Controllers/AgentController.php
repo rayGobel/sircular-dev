@@ -17,15 +17,15 @@ class AgentController extends Controller {
      * Agent form validation rules
      */
     protected $rules = [
-        'name'=>'regex:/[A-Za-z0-9\ \.\-\,\:]+/',
-        'agent_category_id'=>'numeric',
-        'phone'=>'required|regex:/[0-9\(\)\-\ \+]+/',
-        'city'=>'regex:/[A-Za-z\.\ ]+/',
-        'contact'=>'regex:/[A-Za-z\.\ ]+/'
+        'name'=>'regex:/[A-Za-z0-9\ \.\-\,\:]+/|max:255',
+        'agent_category_id'=>'required|numeric',
+        'phone'=>'regex:/[0-9\(\)\-\ \+]+/|max:100',
+        'city'=>'regex:/[A-Za-z\.\ ]+/|max:255',
+        'contact'=>'regex:/[A-Za-z\.\ ]+/|max:255'
         ];
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the agents
 	 *
 	 * @return Response
 	 */
@@ -37,7 +37,7 @@ class AgentController extends Controller {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new agent
 	 *
 	 * @return Response
 	 */
@@ -69,7 +69,12 @@ class AgentController extends Controller {
 	 */
 	public function show($id)
 	{
-        $agent = Agent::with('agent_category')->find($id);
+        try {
+            $agent = Agent::with('agent_category')->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $errMsg = "Cannot find agent! Error on `show` with ID={$id}";
+            return redirect('masterdata/agent')->with('errMsg', $errMsg);
+        }
         return view('masterdata/agent-view', ['agent'=>$agent]);
 	}
 
@@ -81,8 +86,15 @@ class AgentController extends Controller {
 	 */
 	public function edit($id)
 	{
+        try {
+            $agent = Agent::with('agent_category')->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $errMsg = "Cannot find agent! Error on `edit` with ID={$id}";
+            return redirect('masterdata/agent')->with('errMsg', $errMsg);
+        }
+
         return view('masterdata/agent-form',
-            ['agent'=>Agent::with('agent_category')->find($id),
+            ['agent'=>$agent,
              'agent_cat'=>AgentCategory::all(),
              'method'=>'PUT',
              'agent_id'=>$id
@@ -99,7 +111,13 @@ class AgentController extends Controller {
 	public function update($id, Request $request)
 	{
         $input = $request->only('name', 'agent_category_id', 'city', 'phone', 'contact');
-        $agent = Agent::find($id);
+        try {
+            $agent = Agent::with('agent_category')->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $errMsg = "Cannot find agent! Error on `update` with ID={$id}";
+            return redirect('masterdata/agent')->with('errMsg', $errMsg);
+        }
+
         $agent->name = $input['name'];
         $agent->agent_category_id = $input['agent_category_id'];
         $agent->city = $input['city'];
@@ -141,7 +159,13 @@ class AgentController extends Controller {
      */
     public function getRelationship($agent_id)
     {
-        $agent = Agent::with('magazine', 'agent_category')->find($agent_id);
+        try {
+            $agent = Agent::with('magazine', 'agent_category')->findOrFail($agent_id);
+        } catch (ModelNotFoundException $e) {
+            $errMsg = "Cannot find agent! Error on `getRelationship` with ID={$agent_id}";
+            return redirect('masterdata/agent')->with('errMsg', $errMsg);
+        }
+
         $selected = [];
         foreach($agent->magazine as $mag) {
             $selected[] = $mag->id;
@@ -166,9 +190,15 @@ class AgentController extends Controller {
         $agent_id = $request->agent_id;
         $magazine_id = $request->magazine_id;
         // Get current agent
-        $agent = Agent::find($agent_id)
-            ->magazine()
-            ->save(Magazine::find($magazine_id));
+        try {
+            $agent = Agent::findOrFail($agent_id);
+            $magazine = Magazine::findOrFail($magazine_id);
+        } catch (ModelNotFoundException $e) {
+            $errMsg = "Cannot find agent/magazine! Error on `CreateRelationship` with agent ID={$agent_id} and magazine ID={$magazine_id}";
+            return redirect('masterdata/agent')->with('errMsg', $errMsg);
+        }
+
+        $agent = $agent->magazine()->save($magazine);
         // Add new entry
         return redirect("masterdata/agent/relationship/{$agent_id}")
             ->with('message', 'Added new relationship!');

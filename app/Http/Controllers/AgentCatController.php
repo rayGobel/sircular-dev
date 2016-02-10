@@ -14,8 +14,8 @@ use App\Masterdata\Agent;
 class AgentCatController extends Controller {
 
     /**
-     * define fillable form contents for
-     * new category creation or editing
+     * define form validation rules for
+     * new category creation or edits
      */
     protected $rules = [
         'name'=>'required|regex:/^[A-Za-z0-9\.\ \-\,\:]+$/',
@@ -24,7 +24,7 @@ class AgentCatController extends Controller {
 
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of agent categories
 	 *
 	 * @return Response
 	 */
@@ -35,7 +35,7 @@ class AgentCatController extends Controller {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new agent category
 	 *
 	 * @return Response
 	 */
@@ -46,7 +46,7 @@ class AgentCatController extends Controller {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created category in storage.
 	 *
 	 * @return Response
 	 */
@@ -60,42 +60,63 @@ class AgentCatController extends Controller {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified agent category
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function show($id)
 	{
-        $agentCat = AgentCategory::find($id);
+        try {
+            $agentCat = AgentCategory::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot find category. Failed with ID={$id}";
+            return redirect('masterdata/agent-cat')->with('errMsg', $execMsg);
+        }
+
         return view('masterdata/agent-cat-view', ['agent_cat'=>$agentCat]);
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified agent category
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function edit($id)
 	{
+        try {
+            $agentCat = AgentCategory::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot edit category. Failed with ID={$id}";
+            return redirect('masterdata/agent-cat')->with('errMsg', $execMsg);
+        }
+
         return view('masterdata/agent-cat-form',
-            ['agent_cat'=>AgentCategory::find($id),
+            ['agent_cat'=>$agentCat,
             'agent_cat_id'=>$id,
             'method'=>'PUT'
         ]);
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified agent category in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function update($id, Request $request)
 	{
+        $this->validate($request, $this->rules);
         $input = $request->only('name', 'description');
-        $agentCat = AgentCategory::find($id);
+
+        try {
+            $agentCat = AgentCategory::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot update category. Failed with ID={$id}";
+            return redirect('masterdata/agent-cat')->with('errMsg', $execMsg);
+        }
+
         $agentCat->name = $input['name'];
         $agentCat->description = $input['description'];
         $agentCat->save();

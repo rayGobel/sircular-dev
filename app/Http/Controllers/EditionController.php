@@ -94,7 +94,13 @@ class EditionController extends Controller {
 	 */
 	public function show($id)
 	{
-        $edition = Edition::with('magazine')->find($id);
+        try {
+            $edition = Edition::with('magazine')->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot show magazine. Error on ID={$id}";
+            return redirect('masterdata/edition/')->with('errMsg', $execMsg);
+        }
+
         return view('masterdata/edition-view',
             ['edition'=>$edition]
         );
@@ -108,8 +114,15 @@ class EditionController extends Controller {
 	 */
 	public function edit($id)
 	{
+        try {
+            $edition = Edition::with('magazine')->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot show magazine. Error on ID={$id}";
+            return redirect('masterdata/edition/')->with('errMsg', $execMsg);
+        }
+
         return view('masterdata/edition-form',
-            ['edition'=>Edition::with('magazine')->find($id),
+            ['edition'=>$edition,
              'magazines'=>Magazine::all(),
              'method'=>'PUT',
              'edition_id'=>$id
@@ -126,7 +139,12 @@ class EditionController extends Controller {
 	public function update($id, Request $request)
 	{
         $input = $request->only('edition_code', 'magazine_id', 'price', 'cover', 'main_article');
-        $edition = Edition::find($id);
+        try {
+            $edition = Edition::with('magazine')->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $execMsg = "Cannot show magazine. Error on ID={$id}";
+            return redirect('masterdata/edition/')->with('errMsg', $execMsg);
+        }
         $edition->edition_code = $input['edition_code'];
         $edition->magazine_id = $input['magazine_id'];
         $edition->cover = $input['cover'];

@@ -1,9 +1,17 @@
 <?php namespace App\Masterdata;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Agent extends Model 
 {
+    use SoftDeletes;
+
+    /**
+     * Attribute that should be mutated to dates
+     */
+    protected $dates = ['deleted_at'];
+
     /**
      * Define fillable columns on table
      */
