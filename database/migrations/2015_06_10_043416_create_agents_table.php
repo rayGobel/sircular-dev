@@ -21,6 +21,7 @@ class CreateAgentsTable extends Migration {
             $table->string('phone', 100)->nullable();
             $table->string('contact', 255)->nullable();
 			$table->timestamps();
+            $table->softDeletes();
 
             // Foreign keys
             $table->foreign('agent_category_id')->references('id')->on('agent_categories');

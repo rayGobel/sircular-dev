@@ -14,7 +14,8 @@
                    <label for="magz-name">Magazine name</label>
                    <input type="text" class="form-control" 
                           id="magz-name" name="name" 
-                          value="{{$magazine->name or 'Magazine Name'}}">
+                          value="{{$magazine->name or ''}}">
+                    <p class="help-block"><em>e.g. COSMOPOLITAN-KCL; BAZAAR; MOTHER & BABY</em></p>
                 </div>
                 <div class="form-group">
                     <label for="magz-pub">Publisher</label>
@@ -29,26 +30,37 @@
                 <div class="form-group">
                     <label for="magz-period">Period</label>
                     <input type="text" class="form-control" name="period"
-                           value="{{$magazine->period or 'BULANAN'}}"
+                           value="{{$magazine->period or ''}}"
                            id="magz-period">
+                    <p class="help-block"><em>e.g. BULANAN; MINGGUAN; 2 MINGGUAN;</em></p>
                 </div>
                 <div class="form-group">
                     <label for="magz-price">Price</label>
-                    <input type="text" class="form-control" name="price"
-                           value="{{$magazine->price or 0 }}"
-                           id="magz-price">
+                    <div class="input-group">
+                        <div class="input-group-addon">Rp.</div>
+                        <input type="text" class="form-control" name="price"
+                               value="{{$magazine->price or 0 }}"
+                               id="magz-price">
+                        <div class="input-group-addon">,00</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="magz-fee">% Fee</label>
-                    <input type="text" class="form-control" name="percent_fee"
-                           value="{{$magazine->percent_fee or '' }}"
-                           id="magz-fee">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="percent_fee"
+                               value="{{$magazine->percent_fee or '0' }}"
+                               id="magz-fee">
+                        <div class="input-group-addon">%</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="magz-value">% Value</label>
-                    <input type="text" class="form-control" name="percent_value"
-                           value="{{$magazine->percent_value or '' }}"
-                           id="magz-value">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="percent_value"
+                               value="{{$magazine->percent_value or '0' }}"
+                               id="magz-value">
+                        <div class="input-group-addon">%</div>
+                    </div>
                 </div>
                 <!-- Laravel CSRF Token and method SPOOFING -->
                 @if (isset($method))

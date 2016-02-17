@@ -23,6 +23,7 @@ class CreateInvoiceQuotasTable extends Migration {
 			$table->integer('edition_id')->unsigned();
 			$table->double('adjustment');
 			$table->timestamps();
+            $table->softDeletes();
 			
 			// Foreign keys
 			$table->foreign('agent_id')

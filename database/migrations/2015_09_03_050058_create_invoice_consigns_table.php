@@ -23,6 +23,8 @@ class CreateInvoiceConsignsTable extends Migration {
 			$table->integer('edition_id')->unsigned();
 			$table->double('adjustment')->default(0);
 			$table->timestamps();
+            $table->softDeletes();
+
 		});
 		
 		// Foreign key

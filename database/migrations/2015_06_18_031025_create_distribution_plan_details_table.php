@@ -21,6 +21,7 @@ class CreateDistributionPlanDetailsTable extends Migration {
             $table->mediumInteger('consigned')->unsigned()->default(0);
             $table->mediumInteger('gratis')->unsigned()->default(0);
 			$table->timestamps();
+            $table->softDeletes();
 
             // Foreign keys
             $table->foreign('distribution_plan_id')

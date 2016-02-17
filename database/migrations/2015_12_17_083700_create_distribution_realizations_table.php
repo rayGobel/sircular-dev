@@ -24,6 +24,7 @@ class CreateDistributionRealizationsTable extends Migration {
 			$table->date('date');
 			$table->smallInteger('print_number')->unsigned()->default(1);
 			$table->timestamps();
+            $table->softDeletes();
 			
 			// Foreign keys
 			$table->foreign('distribution_plan_id')

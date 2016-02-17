@@ -25,6 +25,7 @@ class CreateDeliveriesTable extends Migration {
             $table->boolean('in_invoice_consign')->default(0);
             $table->boolean('in_invoice_quota')->default(0);
 			$table->timestamps();
+            $table->softDeletes();
 			
 			// Foreign keys
 			$table->foreign('dist_realization_details_id')

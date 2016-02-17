@@ -9,7 +9,8 @@
                    <label for="pub-name">Publisher name</label>
                    <input type="text" class="form-control" 
                           id="pub-name" name="name" 
-                          value="{{$publisher->name or 'insert name of publisher'}}">
+                          value="{{ $publisher->name or ''}}">
+                    <p class="help-block"><em>e.g. PT. MEDIA MITRA BUNDA</em></p>
                 </div>
                 <div class="form-group">
                     <label for="pub-city">City</label>
@@ -26,14 +27,16 @@
                 <div class="form-group">
                     <label for="pub-province">Province</label>
                     <input type="text" class="form-control" name="province"
-                           value="{{$publisher->province or 'province of city'}}"
+                           value="{{$publisher->province or ''}}"
                            id="pub-province">
+                    <p class="help-block"><em>e.g. DKI JAKARTA</em></p>
                 </div>
                 <div class="form-group">
                     <label for="pub-phone">Phone number</label>
                     <input type="text" class="form-control" name="phone"
                            value="{{$publisher->phone or '' }}"
                            id="pub-phone">
+                    <p class="help-block"><em>e.g. 021-8776548; +62 811 88726112</em></p>
                 </div>
                 <div class="form-group">
                     <label for="pub-phone">Available contact</label>

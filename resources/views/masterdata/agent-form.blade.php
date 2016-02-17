@@ -21,6 +21,7 @@
                    <input type="text" class="form-control" 
                           id="agent-city" name="city" 
                           value="{{$agent->city or ''}}">
+                    <p class="help-block"><em>e.g. Jakarta; Bandung; Semarang</em></p>
                 </div>
                 <div class="form-group">
                     <label for="agent-cat">Agent Category</label>
@@ -35,6 +36,7 @@
                 <div class="form-group">
                     <label for="agent-phone">Phone</label>
                     <input type="text" class="form-control" name="phone" value="{{$agent->phone or ''}}" id="agent-phone">
+                    <p class="help-block"><em>e.g. 021-8776548; +62 811 88726112</em></p>
                 </div>
                 <div class="form-group">
                     <label for="agent-contact">Contact</label>

@@ -19,7 +19,7 @@ class AgentCatController extends Controller {
      */
     protected $rules = [
         'name'=>'required|regex:/^[A-Za-z0-9\.\ \-\,\:]+$/',
-        'description'=>'required|regex:/^[A-Za-z0-9\.\ \-\,\:]+$/'
+        'description'=>'required|regex:/^[A-Za-z0-9\.\ \-\,\:\(\)]+$/'
         ];
 
 

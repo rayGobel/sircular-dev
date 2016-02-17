@@ -21,6 +21,7 @@ class CreateEditionsTable extends Migration {
             $table->string('cover', 255)->nullable();
             $table->mediumInteger('price')->unsigned()->default(0);
 			$table->timestamps();
+            $table->softDeletes();
 
             // Foreign keys
             $table->foreign('magazine_id')->references('id')->on('magazines');

@@ -22,6 +22,7 @@ class CreateInvoiceConsignDetailDeliveriesTable extends Migration {
 			$table->double('total')->default(0);
 			$table->integer('edition_id')->unsigned();
 			$table->timestamps();
+            $table->softDeletes();
 			
 			// Foreign keys
 			$table->foreign('invoice_consign_id')

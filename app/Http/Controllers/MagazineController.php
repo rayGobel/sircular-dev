@@ -107,7 +107,7 @@ class MagazineController extends Controller {
             ['magazine'=>$magazine,
              'publishers'=>Publisher::all(),
              'method'=>'PUT',
-             'magazine_id'=>$id
+             'magz_id'=>$id
             ]
         );
 	}
@@ -120,9 +120,11 @@ class MagazineController extends Controller {
 	 */
 	public function update($id, Request $request)
 	{
+        $this->validate($request, $this->magazine_rules);
         $input = $request->only('name', 'publisher_id', 'period', 'price', 'percent_fee', 'percent_value');
+
         try {
-            $magazine = Magazine::findOrFail($id);
+            $magz = Magazine::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             $errMsg = "Cannot update magazine. Error on ID={$id}";
             return redirect("masterdata/magazine")->with('errMsg', $errMsg);

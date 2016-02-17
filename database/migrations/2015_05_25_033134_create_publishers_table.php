@@ -21,6 +21,7 @@ class CreatePublishersTable extends Migration {
             $table->string('phone', 50)->nullable();
             $table->contact('varchar', 100)->nullable();
 			$table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

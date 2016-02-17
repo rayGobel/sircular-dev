@@ -22,6 +22,7 @@ class CreateMagazinesTable extends Migration {
             $table->float('percent_fee')->default(0);
             $table->float('percent_value')->default(0);
 			$table->timestamps();
+            $table->softDeletes();
 
             // Foreign key
             $table->foreign('publisher_id')->references('id')->on('publishers');

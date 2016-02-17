@@ -24,6 +24,7 @@ class CreateDistributionPlansTable extends Migration {
             $table->smallInteger('print_number')->unsigned->default(1);
             $table->boolean('is_realized')->default(0);
 			$table->timestamps();
+            $table->softDeletes();
 
             // Foreign keys
             $table->foreign('edition_id')->references('id')->on('editions');

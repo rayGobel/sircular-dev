@@ -32,7 +32,7 @@
                     <td>{{ $magazine->name }}</td>
                     <td>{{ $magazine->publisher->name }}</td>
                     <td>{{ $magazine->period }}</td>
-                    <td>{{ $magazine->price }}</td>
+                    <td class="monetary-fmt">{{ $magazine->price }}</td>
                     <td>{{ $magazine->percent_fee }}</td>
                     <td>{{ $magazine->percent_value }}</td>
                     <td>

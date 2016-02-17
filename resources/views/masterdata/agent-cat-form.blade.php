@@ -15,6 +15,7 @@
                    <input type="text" class="form-control" 
                           id="agent-cat-name" name="name" 
                           value="{{$agent_cat->name or ''}}">
+                    <p class="help-block"><em>e.g. LUAR KOTA; DALAM KOTA</em></p>
                 </div>
                 <div class="form-group">
                    <label for="agent-category-desc">Keterangan</label>

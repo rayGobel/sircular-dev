@@ -25,6 +25,7 @@ class CreateReturnItemsTable extends Migration {
 			$table->mediumInteger('total')->unsigned->default(0);
 			$table->boolean('in_invoice')->default(0);
 			$table->timestamps();
+            $table->softDeletes();
 			
 			// Foreign key
 			$table->foreign('dist_realization_id')

@@ -15,6 +15,7 @@
                    <input type="text" class="form-control" 
                           id="edition-code" name="edition_code" 
                           value="{{$edition->edition_code or ''}}">
+                    <p class="help-block"><em>e.g. 111/MARET/15; 01/SEP/2016; 52-JAN-16;</em></p>
                 </div>
                 <div class="form-group">
                     <label for="edition-magz">Magazine name</label>
