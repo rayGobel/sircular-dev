@@ -19,7 +19,7 @@ class CreatePublishersTable extends Migration {
             $table->string('city', 255)->nullable();
             $table->string('province', 255)->nullable();
             $table->string('phone', 50)->nullable();
-            $table->contact('varchar', 100)->nullable();
+            $table->string('contact', 100)->nullable();
 			$table->timestamps();
             $table->softDeletes();
 		});

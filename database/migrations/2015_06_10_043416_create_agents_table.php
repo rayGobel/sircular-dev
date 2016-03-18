@@ -20,6 +20,9 @@ class CreateAgentsTable extends Migration {
             $table->integer('agent_category_id')->unsigned()->default(0);
             $table->string('phone', 100)->nullable();
             $table->string('contact', 255)->nullable();
+            $table->float('discount', 0); // Maximum 1 minimum 0
+            $table->float('saving', 0); // Maximum 1 minimum 0
+            $table->float('bonus', 0); // Maximum 1 minimum 0
 			$table->timestamps();
             $table->softDeletes();
 

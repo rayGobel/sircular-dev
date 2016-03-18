@@ -25,15 +25,15 @@ class CreateInvoiceConsignsTable extends Migration {
 			$table->timestamps();
             $table->softDeletes();
 
-		});
 		
-		// Foreign key
-		$table->foreign('agent_id')
-		    ->references('id')
-		    ->on('agents');
-		$table->foreign('edition_id')
-		    ->references('id')
-		    ->on('editions');
+            // Foreign key
+            $table->foreign('agent_id')
+                ->references('id')
+                ->on('agents');
+            $table->foreign('edition_id')
+                ->references('id')
+                ->on('editions');
+		});
 	}
 
 	/**

@@ -15,20 +15,20 @@ class CreateDeliveriesTable extends Migration {
 		Schema::create('deliveries', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->integer('dist_realization_details_id')->unsigned();
+            $table->integer('dist_real_det_id')->unsigned();
             $table->string('order_number', 10);
             $table->date('date_issued');
-            $table->smallInteger('quota')->unsigned->default(0);
-            $table->smallInteger('consigned')->unsigned->default(0);
-            $table->smallInteger('gratis')->unsigned->default(0);
-            $table->mediumInteger('number')->unsigned->default(0);
+            $table->smallInteger('quota')->unsigned()->default(0);
+            $table->smallInteger('consigned')->unsigned()->default(0);
+            $table->smallInteger('gratis')->unsigned()->default(0);
+            $table->mediumInteger('number')->unsigned()->default(0);
             $table->boolean('in_invoice_consign')->default(0);
             $table->boolean('in_invoice_quota')->default(0);
 			$table->timestamps();
             $table->softDeletes();
 			
 			// Foreign keys
-			$table->foreign('dist_realization_details_id')
+			$table->foreign('dist_real_det_id')
 			    ->references('id')
 			    ->on('distribution_realization_details');
 			    

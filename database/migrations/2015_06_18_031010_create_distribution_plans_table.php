@@ -21,8 +21,8 @@ class CreateDistributionPlansTable extends Migration {
             $table->mediumInteger('distributed')->unsigned()->default(0);
             $table->mediumInteger('stock')->unsigned()->default(0);
             $table->date('publish_date')->nullable();
-            $table->smallInteger('print_number')->unsigned->default(1);
-            $table->boolean('is_realized')->default(0);
+            $table->smallInteger('print_number')->unsigned()->default(1);
+            $table->boolean('is_realized')->default(FALSE);
 			$table->timestamps();
             $table->softDeletes();
 

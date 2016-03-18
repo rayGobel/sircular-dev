@@ -15,20 +15,20 @@ class CreateReturnItemsTable extends Migration {
 		Schema::create('return_items', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('dist_realization_det_id')->unsigned();
+			$table->integer('dist_real_det_id')->unsigned();
 			$table->integer('agent_id')->unsigned();
 			$table->integer('edition_id')->unsigned();
 			$table->integer('magazine_id')->unsigned();
 			$table->date('date');
 			$table->string('number', 10);
-			$table->mediumInteger('num')->unsigned->default(0);
-			$table->mediumInteger('total')->unsigned->default(0);
+			$table->mediumInteger('num')->unsigned()->default(0);
+			$table->mediumInteger('total')->unsigned()->default(0);
 			$table->boolean('in_invoice')->default(0);
 			$table->timestamps();
             $table->softDeletes();
 			
 			// Foreign key
-			$table->foreign('dist_realization_id')
+			$table->foreign('dist_real_det_id')
 			    ->references('id')
 			    ->on('distribution_realization_details');
 			$table->foreign('agent_id')
