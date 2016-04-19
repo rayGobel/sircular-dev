@@ -50,6 +50,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('invoice/invoiceQuota', 'InvoiceQuotaController');
 
     Route::controller('report', 'ReportController');
+    Route::resource('group', 'GroupController');
 
 });
 
