@@ -46,7 +46,11 @@ class EditionController extends Controller {
 	public function create()
 	{
         $magz = Magazine::all(); //For Edition options
-		return view('masterdata/edition-form', ['magazines'=>$magz]);
+        return view('masterdata/edition-form',
+            [
+                'magazines'=>$magz,
+                'form_action' => action('EditionController@store')
+            ]);
 	}
 
 	/**

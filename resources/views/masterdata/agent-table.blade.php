@@ -34,11 +34,10 @@
                     <td>{{ $agent->phone }}</td>
                     <td>{{ $agent->contact }}</td>
                     <td>
-                        <a href="agent/relationship/{{$agent->id}}">Majalah</a>
+                        <a href="{{ url('masterdata/agent/relationship', $agent->id) }}">Majalah</a>
 
-                        <a href="agent/{{$agent->id}}/edit">Edit</a>
-                        
-                        <a href="agent/{{ $agent->id}}">Delete</a>
+                        <a href="{{ action('AgentController@edit', $agent->id) }}">Edit</a>
+                        <a href="{{ action('AgentController@show', $agent->id) }}">Delete</a>
                     </td>
                 </tr>
             @endforeach
@@ -53,7 +52,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <a class="btn btn-default" href="agent/create" role="button">
+            <a class="btn btn-default" href="{{ action('AgentController@create') }}" role="button">
                 Create new
             </a>
         </div>

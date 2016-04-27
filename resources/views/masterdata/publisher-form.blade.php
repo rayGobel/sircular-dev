@@ -4,7 +4,7 @@
 <div class="container">
    <div class="row">
         <div class="col-lg-6">
-            <form action="/sircular-dev/public/masterdata/publisher{{ isset($pub_id) ? '/'.$pub_id : '' }}" method="POST">
+            <form action="{{ $form_action }}" method="POST">
                 <div class="form-group">
                    <label for="pub-name">Publisher name</label>
                    <input type="text" class="form-control" 
@@ -51,7 +51,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group">
                     <button type="submit" class="btn btn-default">Save</button>
-                    <a class="btn btn-default" href="/sircular-dev/public/masterdata/publisher">
+                    <a class="btn btn-default" href="{{ action('PublisherController@index') }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Return
                     </a>

@@ -14,7 +14,7 @@
                     <p>{{ Session::get('errMsg') }}</p>
             </div>
             @endif
-            <form class="form-inline" action="/sircular-dev/public/masterdata/edition/begin-filter" method="POST">
+            <form class="form-inline" action="{{ action('EditionController@postBeginFilter') }}" method="POST">
                 <div class="form-group">
                     <select class="form-control" id="filter-magazine" name="magazine_id">
                         @foreach ($magazines as $mag)

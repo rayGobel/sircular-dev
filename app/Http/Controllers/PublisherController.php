@@ -39,7 +39,10 @@ class PublisherController extends Controller {
 	 */
 	public function create()
 	{
-        return view('masterdata/publisher-form');
+        return view('masterdata/publisher-form',
+            [
+                'form_action'=>action('PublisherController@store')
+            ]);
 	}
 
 	/**
@@ -73,8 +76,10 @@ class PublisherController extends Controller {
         }
 
         return view('masterdata/publisher-view',
-            ['publisher'=>$publ]
-            );
+            [
+                'publisher'=>$publ,
+                 'delete_action'=>action('PublisherController@destroy', $id)
+            ]);
 	}
 
 	/**
@@ -97,6 +102,7 @@ class PublisherController extends Controller {
         return view('masterdata/publisher-form',
             ['publisher'=>$publ,
              'method'=>'PUT',
+             'form_action'=>action('PublisherController@update', $id),
              'pub_id'=>$id
             ]
         ); 

@@ -35,8 +35,9 @@ class MagazineController extends Controller {
         $magazines = Magazine::with('publisher')->paginate(5);
         $magazines->setPath('');
         return view('masterdata/magazine-table',
-                        ['magazines'=>$magazines]
-                    );
+            [
+                'magazines'=>$magazines,
+            ]);
 
 	}
 
@@ -48,7 +49,11 @@ class MagazineController extends Controller {
 	public function create()
 	{
         $publs = Publisher::all();
-        return view('masterdata/magazine-form',['publishers'=>$publs]);
+        return view('masterdata/magazine-form',
+            [
+                'publishers'=>$publs,
+                'form_action'=>action('MagazineController@store')
+            ]);
 	}
 
 	/**
@@ -104,10 +109,12 @@ class MagazineController extends Controller {
         }
 
         return view('masterdata/magazine-form',
-            ['magazine'=>$magazine,
-             'publishers'=>Publisher::all(),
-             'method'=>'PUT',
-             'magz_id'=>$id
+            [
+                'magazine'=>$magazine,
+                'publishers'=>Publisher::all(),
+                'method'=>'PUT',
+                'form_action'=>action('MagazineController@update', $id),
+                'magz_id'=>$id
             ]
         );
 	}

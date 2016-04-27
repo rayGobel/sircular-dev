@@ -25,10 +25,13 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('masterdata/publisher', 'PublisherController');
     Route::resource('masterdata/magazine', 'MagazineController');
     // Necessary for filter/search method
+    Route::post('masterdata/edition/begin-filter', 'EditionController@postBeginFilter');
+    Route::get('masterdata/edition/filter/{id}', 'EditionController@getFilter');
     Route::resource('masterdata/edition', 'EditionController');
-    Route::controller('masterdata/edition', 'EditionController');
+
+    Route::get('masterdata/agent/relationship/{id}', 'AgentController@getRelationship');
+    Route::post('masterdata/agent/create-relationship', 'AgentController@postCreateRelationship');
     Route::resource('masterdata/agent', 'AgentController');
-    Route::controller('masterdata/agent', 'AgentController');
     Route::resource('masterdata/agent-cat', 'AgentCatController');
 
     Route::resource('circulation/distribution-plan', 'DistributionPlanController');
