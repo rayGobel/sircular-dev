@@ -9,7 +9,7 @@
    @endforeach
    <div class="row">
         <div class="col-lg-6">
-            <form action="/sircular-dev/public/masterdata/agent{{ isset($agent_id) ? '/'.$agent_id : '' }}" method="POST">
+            <form action="{{ $form_action }}" method="POST">
                 <div class="form-group">
                    <label for="agent-name">Name</label>
                    <input type="text" class="form-control" 
@@ -49,7 +49,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group">
                     <button type="submit" class="btn btn-default">Save</button>
-                    <a class="btn btn-default" href="/sircular-dev/public/masterdata/agent">
+                    <a class="btn btn-default" href="{{ url('masterdata/agent') }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Return
                     </a>

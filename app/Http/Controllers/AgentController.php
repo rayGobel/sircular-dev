@@ -44,7 +44,10 @@ class AgentController extends Controller {
 	public function create()
 	{
         $agent_cat = AgentCategory::all();
-        return view('masterdata/agent-form',['agent_cat'=>$agent_cat]);
+        return view('masterdata/agent-form',[
+            'agent_cat'=>$agent_cat,
+            'form_action'=>action('AgentController@store')
+        ]);
 	}
 
 	/**
@@ -97,6 +100,7 @@ class AgentController extends Controller {
             ['agent'=>$agent,
              'agent_cat'=>AgentCategory::all(),
              'method'=>'PUT',
+             'form_action'=>action('AgentController@update', $agent->id),
              'agent_id'=>$id
             ]
         );

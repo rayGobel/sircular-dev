@@ -34,9 +34,9 @@
                     <td>{{ $publisher->phone }}</td>
                     <td>{{ $publisher->contact }}</td>
                     <td>
-                        <a href="publisher/{{$publisher->id}}/edit">Edit</a>
+                        <a href="{{ action('PublisherController@edit', $publisher->id) }}">Edit</a>
                         
-                        <a href="publisher/{{ $publisher->id}}">Delete</a>
+                        <a href="{{ action('PublisherController@show', $publisher->id) }}">Delete</a>
                     </td>
                 </tr>
             @endforeach
@@ -51,7 +51,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <a class="btn btn-default" href="publisher/create" role="button">
+            <a class="btn btn-default" href="{{ action('PublisherController@create') }}" role="button">
                 Create new
             </a>
         </div>

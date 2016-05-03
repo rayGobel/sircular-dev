@@ -33,12 +33,12 @@
    <div class="row">
        <div class="col-lg-6">
            <hr></hr>
-           <form action="/sircular-dev/public/masterdata/agent-cat/{{ $agent_cat->id }}" method="POST">
+           <form action="{{ $form_action }}" method="POST">
                <input type="hidden" name="_method" value="DELETE">
                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                <div class="form-group">
                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <a class="btn btn-default" href="/sircular-dev/public/masterdata/agent-cat">
+                    <a class="btn btn-default" href="{{ url('masterdata/agent-cat') }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Cancel
                     </a>

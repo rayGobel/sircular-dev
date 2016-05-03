@@ -31,7 +31,11 @@ class AgentCatController extends Controller {
 	public function index()
 	{
         $categories = AgentCategory::all();
-        return view('masterdata/agent-cat-table',['agent_cat'=>$categories]);
+        return view('masterdata/agent-cat-table',
+            [
+                'agent_cat'=>$categories
+            ]
+        );
 	}
 
 	/**
@@ -42,7 +46,9 @@ class AgentCatController extends Controller {
 	public function create()
 	{
 		//
-        return view('masterdata/agent-cat-form');
+        return view('masterdata/agent-cat-form',
+            ['form_action'=>action('AgentCatController@store')]
+        );
 	}
 
 	/**
@@ -74,7 +80,11 @@ class AgentCatController extends Controller {
             return redirect('masterdata/agent-cat')->with('errMsg', $execMsg);
         }
 
-        return view('masterdata/agent-cat-view', ['agent_cat'=>$agentCat]);
+        return view('masterdata/agent-cat-view',
+            [
+                'agent_cat'=>$agentCat,
+                'form_action'=>action('AgentCatController@destroy', $id)
+            ]);
 	}
 
 	/**
@@ -93,9 +103,11 @@ class AgentCatController extends Controller {
         }
 
         return view('masterdata/agent-cat-form',
-            ['agent_cat'=>$agentCat,
-            'agent_cat_id'=>$id,
-            'method'=>'PUT'
+            [
+                'agent_cat'=>$agentCat,
+                'agent_cat_id'=>$id,
+                'form_action'=>action('AgentCatController@update', $id),
+                'method'=>'PUT'
         ]);
 	}
 

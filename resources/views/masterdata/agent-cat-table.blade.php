@@ -28,9 +28,8 @@
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->description }}</td>
                     <td>
-                        <a href="agent-cat/{{$category->id}}/edit">Edit</a>
-                        
-                        <a href="agent-cat/{{ $category->id}}">Delete</a>
+                        <a href="{{ action('AgentCatController@edit', $category->id) }}">Edit</a>
+                        <a href="{{ action('AgentCatController@show', $category->id) }}">Delete</a>
                     </td>
                 </tr>
             @endforeach
@@ -39,7 +38,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <a class="btn btn-default" href="agent-cat/create" role="button">
+            <a class="btn btn-default" href="{{ url('masterdata/agent-cat/create') }}" role="button">
                 Create new
             </a>
         </div>
