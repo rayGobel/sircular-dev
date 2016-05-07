@@ -7,7 +7,7 @@ class Delivery extends Model
     /**
      * Fillable columns
      */
-    protected $fillable = ['dist_realization_det_id',
+    protected $fillable = ['dist_real_det_id',
                            'date_issued',
                            'order_number',
                            'quota',
@@ -23,6 +23,6 @@ class Delivery extends Model
     public function distRealizationDet()
     {
         return $this->belongsTo('App\Circulation\DistributionRealizationDetail',
-                'dist_realization_det_id');
+                'dist_real_det_id');
     }
 }

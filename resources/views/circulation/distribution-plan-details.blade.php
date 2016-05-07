@@ -23,7 +23,7 @@
            </p>
        </div>
        <div class="col-lg-4">
-           <form class="pull-right" action="/sircular-dev/public/circulation/distribution-plan/{{$dist_id}}" method="POST">
+           <form class="pull-right" action="{{ $form_delete_action }}" method="POST">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <button type="submit" class="btn btn-danger pull-right">

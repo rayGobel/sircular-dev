@@ -16,7 +16,7 @@
    </div>
    <div class="row">
         <div class="col-lg-6">
-            <form action="/sircular-dev/public/circulation/distribution-plan/{{ $distPlanID }}/details{{ isset($detail) ? '/'.$detail->id : '' }}" method="POST">
+            <form action="{{ $form_action }}" method="POST">
                 <div class="form-group">
                     <label for="dist-detail-cat">Agency</label>
                     @if (isset($detail->agent->id))

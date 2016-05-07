@@ -11,7 +11,7 @@
    <div class="row">
        <div class="col-lg-6">
            <h3>Create from existing plan</h3>
-           <form action="{{ url('circulation/distribution-plan') }}/create-from-prev" method="POST">
+           <form action="{{ url('circulation/distribution-plan/create-from-prev') }}" method="POST">
                 <div class="form-group">
                     <label for="distPlanPrev-mag">Magazine</label>
                     <select id="distPlanPrev-mag" class="form-control" name="magazine_id">
@@ -50,7 +50,7 @@
    <div class="row">
         <div class="col-lg-6">
            <h3>Create new plan</h3>
-            <form action="/sircular-dev/public/circulation/distribution-plan{{ isset($distID) ? '/'.$distID : '' }}" method="POST">
+            <form action="{{ $form_action }}" method="POST">
                 @if (isset($distPlan))
                 <div class="form-group">
                     <label for="distPlan-mag">Magazine</label>
@@ -112,7 +112,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group">
                     <button type="submit" class="btn btn-default">Save</button>
-                    <a class="btn btn-default" href="/sircular-dev/public/circulation/distribution-plan">
+                    <a class="btn btn-default" href="{{ url('circulation/distribution-plan') }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Return
                     </a>

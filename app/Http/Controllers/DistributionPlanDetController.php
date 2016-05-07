@@ -60,8 +60,10 @@ class DistributionPlanDetController extends Controller {
         $unAssignedAgent = Agent::select('id','name')
             ->whereNotIn('id', $agents)->get();
         return view('circulation/distribution-plan-details-form',
-            ['agents'=>$unAssignedAgent,
-             'distPlanID'=>$distPlanID
+            [
+                'agents'=>$unAssignedAgent,
+                'distPlanID'=>$distPlanID,
+                'form_action'=>action("DistributionPlanDetController@store", [$distPlanID])
             ]
        );
 	}
@@ -113,10 +115,12 @@ class DistributionPlanDetController extends Controller {
         //Agents should be 'locked' therefore not editable
         $details = DistPlanDet::with('agent', 'distributionPlan.edition.magazine')->find($detailsID);
         return view('circulation/distribution-plan-details-form',
-            ['detail'=>$details,
-             'distPlanID'=>$distPlanID,
-             'details_id'=>$detailsID,
-             'method'=>'PUT'
+            [
+                'detail'=>$details,
+                'distPlanID'=>$distPlanID,
+                'details_id'=>$detailsID,
+                'form_action'=>action('DistributionPlanDetController@update', [$distPlanID, $detailsID]),
+                'method'=>'PUT'
             ]
         );
 	}

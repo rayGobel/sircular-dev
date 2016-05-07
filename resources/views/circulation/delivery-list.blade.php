@@ -39,7 +39,7 @@
                     <td>{{ $dlv->consigned }}</td>
                     <td>{{ $dlv->gratis }}</td>
                     <td>
-                        <a href="/sircular-dev/public/circulation/distribution-realization/{{ $dlv->distRealizationDet->distributionRealization->id }}/details/{{ $dlv->distRealizationDet->id }}/delivery/{{ $dlv->id}}">Print/Delete</a>
+                        <a href="{{ url('circulation/distribution-realization') }}/{{ $dlv->distRealizationDet->distributionRealization->id }}/details/{{ $dlv->distRealizationDet->id }}/delivery/{{ $dlv->id}}">Print/Delete</a>
                     </td>
                 </tr>
             @endforeach

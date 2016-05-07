@@ -25,6 +25,6 @@ class DistributionRealization extends Model
      */
     public function details()
     {
-        return $this->hasMany('App\Circulation\DistributionRealizationDetail');
+        return $this->hasMany('App\Circulation\DistributionRealizationDetail', 'dist_real_id');
     }
 }

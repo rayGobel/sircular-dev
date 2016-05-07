@@ -66,9 +66,11 @@ class DistributionPlanController extends Controller {
         //Magazine list
         $magList = Magazine::all();
         return view('circulation/distribution-plan-form',
-            ['magList'=>$magList,
-             'dist_plans'=>$distPlans
-        ]);
+            [
+                'magList'=>$magList,
+                'dist_plans'=>$distPlans,
+                'form_action'=>action('DistributionPlanController@store')
+            ]);
 	}
 
 	/**
@@ -192,43 +194,49 @@ class DistributionPlanController extends Controller {
 	{
         $dist = DistPlan::with('details.agent', 'edition.magazine')->find($id);
         return view('circulation/distribution-plan-details',
-            ['dist'=>$dist, 'dist_id'=>$id]);
-	}
+            [
+                'dist'=>$dist,
+                'dist_id'=>$id,
+                'form_delete_action'=>action("DistributionPlanController@destroy", $id)
+            ]);
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
         $magz = Magazine::all();
         $distPlan = DistPlan::with('edition.magazine')->find($id);
         return view('circulation/distribution-plan-form',
-            ['distPlan'=>$distPlan,
-            'distID'=>$id,
-            'magList'=>$magz,
-            'method'=>'PUT'
+            [
+                'distPlan'=>$distPlan,
+                'distID'=>$id,
+                'magList'=>$magz,
+                'method'=>'PUT',
+                'form_action'=>action('DistributionPlanController@update', $id)
             ]);
-	}
+    }
 
-	/**
-	 * Update the specified resource in storage.
+    /**
+     * Update the specified resource in storage.
      *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
-		$this->validate($request, $this->distPlanStore_rules);
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
+        $this->validate($request, $this->distPlanStore_rules);
         $ip = $request->only(
-                             'print',
-                             'gratis',
-                             'distributed',
-                             'stock',
-                             'publish_date',
-                             'print_number');
+            'print',
+            'gratis',
+            'distributed',
+            'stock',
+            'publish_date',
+            'print_number');
 
         $distPlan = DistPlan::find($id);
         $distPlan->print = $ip['print'];
@@ -242,17 +250,17 @@ class DistributionPlanController extends Controller {
         $distPlan->save();
         $msg = 'Update successful!';
         return redirect('circulation/distribution-plan')->with('message', $msg);
-	}
+    }
 
-	/**
-	 * Remove the specified resource from storage.
+    /**
+     * Remove the specified resource from storage.
      *
      * Deletion will also remove all of its relationships
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
 	{
         try {
             $distPlan = DistPlan::with('details')->findOrFail($id);

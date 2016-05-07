@@ -51,7 +51,7 @@ class DeliveryController extends Controller {
     public function ScopeIndex($distRealizationID, $distRealizationDetID)
     {
         $deliveryLists = Delivery::with('distRealizationDet.distributionRealization.edition.magazine',
-            'distRealizationDet.agent')->where('dist_realization_det_id', '=', $distRealizationDetID)->paginate(10);
+            'distRealizationDet.agent')->where('dist_real_det_id', '=', $distRealizationDetID)->paginate(10);
 
         $deliveryLists->setPath('');
         return view('circulation/delivery-list',
@@ -81,9 +81,11 @@ class DeliveryController extends Controller {
             ->find($distRealizationDetID);
 
         return view('circulation/delivery-form',
-            ['distRealizationID' => $distRealizationID,
-             'distRealizationDetID'=>$distRealizationDetID,
-             'detail'=>$detail
+            [
+                'distRealizationID' => $distRealizationID,
+                'distRealizationDetID'=>$distRealizationDetID,
+                'detail'=>$detail,
+                'form_action'=>action("DeliveryController@store", [$distRealizationID, $distRealizationDetID])
             ]
         );
 
@@ -106,7 +108,7 @@ class DeliveryController extends Controller {
         $num = Delivery::max('number')+1;
         $input['number'] = $num;
         $input['order_number'] = "{$year}/".str_pad($num, 5, 0, STR_PAD_LEFT);
-        $input['dist_realization_det_id'] = $distRealizationDetID;
+        $input['dist_real_det_id'] = $distRealizationDetID;
 
         $newDO = Delivery::firstOrCreate($input);
         // Modify delivery.realization.details

@@ -9,7 +9,7 @@ class DistributionRealizationDetail extends Model
      */
     public function distributionRealization()
     {
-        return $this->belongsTo('App\Circulation\DistributionRealization');
+        return $this->belongsTo('App\Circulation\DistributionRealization','dist_real_id');
     }
 
     /**
@@ -25,7 +25,7 @@ class DistributionRealizationDetail extends Model
      */
     public function delivery()
     {
-        return $this->hasMany('App\Circulation\Delivery', 'dist_realization_det_id');
+        return $this->hasMany('App\Circulation\Delivery', 'dist_real_det_id');
     }
 
 }

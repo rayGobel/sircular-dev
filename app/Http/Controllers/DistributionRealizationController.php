@@ -38,7 +38,10 @@ class DistributionRealizationController extends Controller {
             ->where('is_realized', '=', 0)
             ->get();
         return view('circulation/distribution-realization-form',
-            ['dist_plans'=>$dist_plans]);
+            [
+                'dist_plans'=>$dist_plans,
+                'form_action'=>action("DistributionRealizationController@store")
+            ]);
 	}
 
 	/**
@@ -72,7 +75,7 @@ class DistributionRealizationController extends Controller {
         $distReal->gratis = $distPlan->gratis;
         $distReal->distributed = $distPlan->distributed;
         $distReal->stock = $distPlan->stock;
-        $distReal->publish_date = $distPlan->publish_date;
+        $distReal->date = $distPlan->publish_date;
         $distReal->print_number = $distPlan->print_number;
         $distReal->save();
 
@@ -82,7 +85,7 @@ class DistributionRealizationController extends Controller {
         // generate exact data for dist_realize_details from dist_plan_details
         foreach($distPlan->details as $distPlanDet) {
             $distRealDet = new DistRealizeDetail;
-            $distRealDet->distribution_realization_id = $distReal->id;
+            $distRealDet->dist_real_id = $distReal->id;
             $distRealDet->agent_id = $distPlanDet->agent_id;
             $distRealDet->save();
 

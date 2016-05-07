@@ -9,7 +9,7 @@
    @endforeach
    <div class="row">
         <div class="col-lg-6">
-            <form action="/sircular-dev/public/circulation/distribution-realization" method="POST">
+            <form action="{{ $form_action }}" method="POST">
 
                 <div class="form-group">
                     <label for="distPlan">Distribution Plans</label>
@@ -28,7 +28,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group">
                     <button type="submit" class="btn btn-default">Save</button>
-                    <a class="btn btn-default" href="/sircular-dev/public/circulation/distribution-realization">
+                    <a class="btn btn-default" href="{{ url('circulation/distribution-realization') }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Return
                     </a>
