@@ -125,7 +125,7 @@ class DistributionPlanController extends Controller {
      * @param  Request $request
      * @return Response
      */
-    public function postCreateFromPrev(Request $request)
+    public function createFromPrev(Request $request)
     {
         $this->validate($request, [
             'dist_plan_id'=>'required|numeric',
@@ -265,7 +265,7 @@ class DistributionPlanController extends Controller {
         try {
             $distPlan = DistPlan::with('details')->findOrFail($id);
             //Ok? Destroy with relationships
-            $distPlan->delete();
+            $this->delete_record($distPlan);
             $execMsg = "Delete successful!";
         } catch (ModelNotFoundException $e) {
             //In case of failure on deletion/finding data, set errMsg
@@ -274,5 +274,18 @@ class DistributionPlanController extends Controller {
         }
         return redirect('circulation/distribution-plan')->with('message',$execMsg);
 	}
+
+    /** To be removed when I've added a fkey constraint cascade onDelete **/
+    private function delete_record(DistPlan $distPlan)
+    {
+        // Get all childrens
+        foreach($distPlan->details as $det) {
+            $det->delete();
+        }
+
+
+        // Then, remove distribution plan
+        $distPlan->delete();
+    }
 
 }

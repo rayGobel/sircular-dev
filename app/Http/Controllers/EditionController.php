@@ -126,10 +126,12 @@ class EditionController extends Controller {
         }
 
         return view('masterdata/edition-form',
-            ['edition'=>$edition,
-             'magazines'=>Magazine::all(),
-             'method'=>'PUT',
-             'edition_id'=>$id
+            [
+                'edition'=>$edition,
+                'magazines'=>Magazine::all(),
+                'method'=>'PUT',
+                'edition_id'=>$id,
+                'form_action'=>action("EditionController@update", $id)
             ]
         );
 	}

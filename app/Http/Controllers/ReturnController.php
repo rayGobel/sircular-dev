@@ -54,9 +54,12 @@ class ReturnController extends Controller {
         $editions = Edition::with('magazine')->get();
 
         return view('circulation/return-form',
-            ['agents'=>$agents,
-            'editions'=>$editions,
-            'return_item_count'=>1
+            [
+                'agents'=>$agents,
+                'editions'=>$editions,
+                'edition_detail_action'=>action('ReturnController@postAddEditionDetail'),
+                'form_action'=>action('ReturnController@store'),
+                'return_item_count'=>1
             ]
         );
 

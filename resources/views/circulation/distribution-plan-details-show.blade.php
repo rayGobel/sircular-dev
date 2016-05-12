@@ -43,7 +43,7 @@
                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                <div class="form-group">
                    <button type="submit" class="btn btn-danger">Delete</button>
-                   <a class="btn btn-default" href="/sircular-dev/public/circulation/distribution-plan/{{$distPlanID}}">
+                   <a class="btn btn-default" href="{{ action('DistributionPlanController@show', $distPlanID) }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Cancel
                     </a>

@@ -51,6 +51,11 @@ class StoreReturnItemRequest extends Request {
     public function messages()
     {
         $messages = [];
+        if (empty($this->request->get('edition_id'))) {
+            $messages["edition_id.required"] = "Must supply edition!";
+            return $messages;
+
+        }
         foreach($this->request->get('edition_id') as $key=>$val) {
             $messages["edition_id.{$key}.numeric"] = "Invalid Edition ID on entry # {$key}";
             $messages["total.{$key}.numeric"] = "Must enter a number on entry # {$key}";

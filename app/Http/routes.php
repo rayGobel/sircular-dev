@@ -34,10 +34,10 @@ Route::group(['middleware'=>'auth'], function(){
     Route::resource('masterdata/agent', 'AgentController');
     Route::resource('masterdata/agent-cat', 'AgentCatController');
 
+    Route::post('circulation/distribution-plan/create-from-prev', 'DistributionPlanController@createFromPrev');
     Route::resource('circulation/distribution-plan', 'DistributionPlanController');
     Route::resource('circulation/distribution-plan.details', 'DistributionPlanDetController');
     // Necessary for postCreateFromPrev
-    Route::post('circulation/create-from-prev', 'DistributionPlanController@postCreateFromPrev');
 
     Route::get('circulation/distribution-realization/{distRealizationID}/details/{distRealizationDetID}/deliverySpecific', 'DeliveryController@ScopeIndex');
     Route::get('circulation/distribution-realization/{distRealizationID}/compare/{distPlanID}', 'DistributionRealizationController@compare');

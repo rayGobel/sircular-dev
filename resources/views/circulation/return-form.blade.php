@@ -9,7 +9,7 @@
    @endforeach
    <div class="row">
         <div class="col-lg-8">
-            <form action="/sircular-dev/public/circulation/return/add-edition-detail" method="POST">
+            <form action="{{ $edition_detail_action }}" method="POST">
                 <input type="hidden" name="_method" value="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group">
@@ -21,7 +21,7 @@
                 </button>
             </form>
             <hr></hr>
-            <form action="/sircular-dev/public/circulation/return" method="POST">
+            <form action="{{ $form_action }}" method="POST">
                 <input type="hidden" class="form-control" name="return_item_count" value="{{ old('return_item_count') }}" >
                 <div class="form-group">
                     <label for="return-number">Return #</label>
@@ -86,7 +86,7 @@
                         <i class="fa fa-pencil fa-fw"></i>
                         Create
                     </button>
-                    <a class="btn btn-default" href="/sircular-dev/public/circulation/return">
+                    <a class="btn btn-default" href="{{ action('ReturnController@index') }}">
                         <i class="fa fa-reply fa-fw"></i>
                         Cancel
                     </a>
